@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     }
 
     
-    func addDatePicker(_ view:UIView) {
+    @objc func addDatePicker(_ view:UIView) {
         
         let datePicker:UIDatePicker = UIDatePicker();
         
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     }
 
     
-    func hour(_ date:Date) -> Int {
+    @objc func hour(_ date:Date) -> Int {
         
         //Get Hour
         let calendar = Calendar.current;
@@ -58,7 +58,7 @@ class ViewController: UIViewController {
     }
     
     
-    func minute(_ date:Date) -> Int {
+    @objc func minute(_ date:Date) -> Int {
         
         //Get Minute
         let calendar = Calendar.current;
@@ -70,7 +70,7 @@ class ViewController: UIViewController {
     }
     
     
-    func toShortTimeString(_ date:Date) -> String {
+    @objc func toShortTimeString(_ date:Date) -> String {
         
         //Get Short Time String
         let formatter = DateFormatter();
