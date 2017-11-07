@@ -25,11 +25,11 @@ class ViewController: UIViewController {
     }
 
     
-    func addDatePicker(view:UIView) {
+    func addDatePicker(_ view:UIView) {
         
         let datePicker:UIDatePicker = UIDatePicker();
         
-        let currDate:NSDate = datePicker.date;
+        let currDate:Date = datePicker.date;
 
         datePicker.translatesAutoresizingMaskIntoConstraints = false;
         
@@ -46,36 +46,36 @@ class ViewController: UIViewController {
     }
 
     
-    func hour(date:NSDate) -> Int {
+    func hour(_ date:Date) -> Int {
         
         //Get Hour
-        let calendar = NSCalendar.currentCalendar();
-        let components = calendar.components(NSCalendarUnit.Hour, fromDate: date);
+        let calendar = Calendar.current;
+        let components = (calendar as NSCalendar).components(NSCalendar.Unit.hour, from: date);
         let hour = components.hour;
         
         //Return Hour
-        return hour;
+        return hour!;
     }
     
     
-    func minute(date:NSDate) -> Int {
+    func minute(_ date:Date) -> Int {
         
         //Get Minute
-        let calendar = NSCalendar.currentCalendar();
-        let components = calendar.components(NSCalendarUnit.Minute, fromDate: date);
+        let calendar = Calendar.current;
+        let components = (calendar as NSCalendar).components(NSCalendar.Unit.minute, from: date);
         let minute = components.minute;
         
         //Return Minute
-        return minute;
+        return minute!;
     }
     
     
-    func toShortTimeString(date:NSDate) -> String {
+    func toShortTimeString(_ date:Date) -> String {
         
         //Get Short Time String
-        let formatter = NSDateFormatter();
-        formatter.timeStyle = .ShortStyle;
-        let timeString = formatter.stringFromDate(date);
+        let formatter = DateFormatter();
+        formatter.timeStyle = .short;
+        let timeString = formatter.string(from: date);
         
         //Return Short Time String
         return timeString;
