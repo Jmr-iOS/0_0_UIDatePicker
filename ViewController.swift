@@ -1,6 +1,6 @@
 /************************************************************************************************************************************/
 /** @file       ViewController.swift
- *  @project    0_0 - UIDatePicker
+ *  @project    0_0 - UIPickerView
  *  @brief      x
  *  @details    x
  *
@@ -14,7 +14,7 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      switch to UIPickerView
+ *      switch to UIPickerView <in prog>
  *      custom UIPickerView creation example
  *      confirm, edit & reset buttons with resp
  *      tap response
@@ -31,6 +31,11 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    //UI
+    var picker : UIPickerView!;
+    
+    
+    
     
     /********************************************************************************************************************************/
     /** @fcn        override func viewDidLoad()
@@ -39,13 +44,17 @@ class ViewController: UIViewController {
      */
     /********************************************************************************************************************************/
     override func viewDidLoad() {
+        
+        //Init UI
+        picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+        
         super.viewDidLoad();
         
         view.backgroundColor = UIColor.white;
         view.translatesAutoresizingMaskIntoConstraints = false;
         
-        addDatePicker(self.view);
-        addCustPicker(self.view);
+        //addDatePicker(self.view);
+        //addCustPicker(self.view);
             
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
@@ -59,9 +68,9 @@ class ViewController: UIViewController {
      *  @details    x
      */
     /********************************************************************************************************************************/
-    func addDatePicker(_ view:UIView) {
-        
-        var datePicker:UIDatePicker = UIDatePicker(frame: CGRect(x: 20, y: 50, width: UIScreen.main.bounds.width-40, height: 100));
+    func depr_addDatePicker(_ view:UIView) {
+
+        let datePicker:UIDatePicker = UIDatePicker(frame: CGRect(x: 20, y: 50, width: UIScreen.main.bounds.width-40, height: 100));
         
         let currDate:Date = datePicker.date;
         
@@ -75,8 +84,6 @@ class ViewController: UIViewController {
         return;
     }
 
-    var textField = UITextField();
-    var picker = UIDatePicker();
     
     
     /********************************************************************************************************************************/
@@ -88,18 +95,20 @@ class ViewController: UIViewController {
      *      https://developer.apple.com/documentation/uikit/uidatepicker
      */
     /********************************************************************************************************************************/
-    func addCustPicker(_ view:UIView) {
-        
+    func depr_addCustPicker(_ view:UIView) {
+        let textField = UITextField();
+        var picker_prev = UIDatePicker();
+
         print("A");
         
-        picker = UIDatePicker(frame: CGRect(x: 20, y: 225, width: UIScreen.main.bounds.width-40, height: 100));
-//?     textField.inputView = picker;
-        picker.addTarget(self, action: #selector(ViewController.handleDatePicker), for: UIControlEvents.valueChanged);
-        picker.datePickerMode = .date;
+        picker_prev = UIDatePicker(frame: CGRect(x: 20, y: 225, width: UIScreen.main.bounds.width-40, height: 100));
+        textField.inputView = picker_prev;
+        picker_prev.addTarget(self, action: #selector(ViewController.handleDatePicker), for: UIControlEvents.valueChanged);
+        picker_prev.datePickerMode = .date;
         
-        picker.backgroundColor = UIColor.blue;
+        picker_prev.backgroundColor = UIColor.blue;
         
-        view.addSubview(picker)
+        view.addSubview(picker_prev)
         
         return;
     }
@@ -126,12 +135,14 @@ class ViewController: UIViewController {
      */
     /********************************************************************************************************************************/
     @objc func handleDatePicker() {
-
+        let textField = UITextField();
+        let picker_prev = UIDatePicker();
+        
         print("B");
         print(Foo.ymd);
         let dateFormatter = DateFormatter();
         dateFormatter.dateFormat = Foo.ymd.description;
-        textField.text = dateFormatter.string(from: picker.date);
+        textField.text = dateFormatter.string(from: picker_prev.date);
         textField.resignFirstResponder();
         
         return;
