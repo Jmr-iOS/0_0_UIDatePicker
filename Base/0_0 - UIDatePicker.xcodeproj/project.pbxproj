@@ -7,17 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D039B4BA1BF4D7950024005F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D039B4B91BF4D7950024005F /* AppDelegate.swift */; };
-		D039B4BC1BF4D7950024005F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D039B4BB1BF4D7950024005F /* ViewController.swift */; };
-		D039B4C11BF4D7950024005F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D039B4C01BF4D7950024005F /* Assets.xcassets */; };
+		D09519161FFC2AB8006E8F9A /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D09519131FFC2AB7006E8F9A /* Base.lproj */; };
+		D09519181FFC2AB8006E8F9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09519151FFC2AB8006E8F9A /* Assets.xcassets */; };
+		D095191C1FFC2AE0006E8F9A /* Empty.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D09519191FFC2AE0006E8F9A /* Empty.storyboard */; };
+		D095191D1FFC2AE0006E8F9A /* NewClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095191A1FFC2AE0006E8F9A /* NewClass.swift */; };
+		D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */; };
+		D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095191F1FFC2B0E006E8F9A /* ViewController.swift */; };
+		D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09519201FFC2B0E006E8F9A /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D039B4B61BF4D7950024005F /* 0_0 - UIDatePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIDatePicker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D039B4B91BF4D7950024005F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D039B4BB1BF4D7950024005F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D039B4C01BF4D7950024005F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D039B4C51BF4D7950024005F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D09519131FFC2AB7006E8F9A /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
+		D09519141FFC2AB7006E8F9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D09519151FFC2AB8006E8F9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D09519191FFC2AE0006E8F9A /* Empty.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Empty.storyboard; path = ../../../../../Ref/iOS/Base/Empty.storyboard; sourceTree = "<group>"; };
+		D095191A1FFC2AE0006E8F9A /* NewClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewClass.swift; path = ../../../../../Ref/iOS/Base/NewClass.swift; sourceTree = "<group>"; };
+		D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stdcomments.swift; path = ../../../../../Ref/iOS/Base/Stdcomments.swift; sourceTree = "<group>"; };
+		D095191F1FFC2B0E006E8F9A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
+		D09519201FFC2B0E006E8F9A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,8 +42,9 @@
 		D039B4AD1BF4D7950024005F = {
 			isa = PBXGroup;
 			children = (
-				D039B4B81BF4D7950024005F /* 0_0 - UIDatePicker */,
-				D039B4B71BF4D7950024005F /* Products */,
+				D09519121FFC2AAB006E8F9A /* Base */,
+				D09519201FFC2B0E006E8F9A /* AppDelegate.swift */,
+				D095191F1FFC2B0E006E8F9A /* ViewController.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,15 +56,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D039B4B81BF4D7950024005F /* 0_0 - UIDatePicker */ = {
+		D09519121FFC2AAB006E8F9A /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				D039B4B91BF4D7950024005F /* AppDelegate.swift */,
-				D039B4BB1BF4D7950024005F /* ViewController.swift */,
-				D039B4C01BF4D7950024005F /* Assets.xcassets */,
-				D039B4C51BF4D7950024005F /* Info.plist */,
+				D09519191FFC2AE0006E8F9A /* Empty.storyboard */,
+				D095191A1FFC2AE0006E8F9A /* NewClass.swift */,
+				D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */,
+				D09519151FFC2AB8006E8F9A /* Assets.xcassets */,
+				D09519131FFC2AB7006E8F9A /* Base.lproj */,
+				D09519141FFC2AB7006E8F9A /* Info.plist */,
+				D039B4B71BF4D7950024005F /* Products */,
 			);
-			path = "0_0 - UIDatePicker";
+			name = Base;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,7 +103,7 @@
 					D039B4B51BF4D7950024005F = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = HRCQBX7PVQ;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 0920;
 					};
 				};
 			};
@@ -118,7 +130,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D039B4C11BF4D7950024005F /* Assets.xcassets in Resources */,
+				D09519181FFC2AB8006E8F9A /* Assets.xcassets in Resources */,
+				D095191C1FFC2AE0006E8F9A /* Empty.storyboard in Resources */,
+				D09519161FFC2AB8006E8F9A /* Base.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D039B4BC1BF4D7950024005F /* ViewController.swift in Sources */,
-				D039B4BA1BF4D7950024005F /* AppDelegate.swift in Sources */,
+				D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */,
+				D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */,
+				D095191D1FFC2AE0006E8F9A /* NewClass.swift in Sources */,
+				D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,11 +255,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HRCQBX7PVQ;
-				INFOPLIST_FILE = "0_0 - UIDatePicker/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---Empty-Template--Swift-";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIDatePicker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -252,10 +271,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = HRCQBX7PVQ;
-				INFOPLIST_FILE = "0_0 - UIDatePicker/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---Empty-Template--Swift-";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIDatePicker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
