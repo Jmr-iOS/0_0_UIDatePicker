@@ -14,7 +14,12 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      custom picker example
+ *      switch to UIPickerView
+ *      custom UIPickerView creation example
+ *      confirm, edit & reset buttons with resp
+ *      tap response
+ *      UIDatePicker example
+ *      DateFormatter example
  *
  * @section    Legal Disclaimer
  *     All contents of this source file and/or any other Jaostech related source files are the explicit property on Jaostech
@@ -36,10 +41,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad();
         
-        self.view.translatesAutoresizingMaskIntoConstraints = false;
+        view.backgroundColor = UIColor.white;
+        view.translatesAutoresizingMaskIntoConstraints = false;
         
-        self.addDatePicker(self.view);
-        
+        addDatePicker(self.view);
+        addCustPicker(self.view);
+            
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
         return;
@@ -54,25 +61,83 @@ class ViewController: UIViewController {
     /********************************************************************************************************************************/
     func addDatePicker(_ view:UIView) {
         
-        let datePicker:UIDatePicker = UIDatePicker();
+        var datePicker:UIDatePicker = UIDatePicker(frame: CGRect(x: 20, y: 50, width: UIScreen.main.bounds.width-40, height: 100));
         
         let currDate:Date = datePicker.date;
-
-        datePicker.translatesAutoresizingMaskIntoConstraints = false;
         
-        print(currDate);
-
-        print(self.hour(currDate));
- 
-        print(self.minute(currDate));
+        datePicker.backgroundColor = UIColor.red;
+        datePicker.translatesAutoresizingMaskIntoConstraints = true;
         
-            
+        print("ViewController.addDatePicker():     added date picker for \(currDate), of \(hour(currDate)) and \(minute(currDate))");
+        
         view.addSubview(datePicker);
 
         return;
     }
 
+    var textField = UITextField();
+    var picker = UIDatePicker();
     
+    
+    /********************************************************************************************************************************/
+    /** @fcn        func addCustPicker(_ view:UIView)
+     *  @brief      x
+     *  @details    x
+     *
+     *  @section    Reference
+     *      https://developer.apple.com/documentation/uikit/uidatepicker
+     */
+    /********************************************************************************************************************************/
+    func addCustPicker(_ view:UIView) {
+        
+        print("A");
+        
+        picker = UIDatePicker(frame: CGRect(x: 20, y: 225, width: UIScreen.main.bounds.width-40, height: 100));
+//?     textField.inputView = picker;
+        picker.addTarget(self, action: #selector(ViewController.handleDatePicker), for: UIControlEvents.valueChanged);
+        picker.datePickerMode = .date;
+        
+        picker.backgroundColor = UIColor.blue;
+        
+        view.addSubview(picker)
+        
+        return;
+    }
+        
+    
+    enum Foo : CustomStringConvertible {
+        case dmy;
+        case ymd;
+        case Boom;
+        
+        var description : String {
+            switch self {
+            case .dmy: return "dd-MM-yyyy";                             /* November 2 2018                                          */
+            case .ymd: return "YYYY-MM-dd HH:mm";                       /* */
+            case .Boom: return "Boom";
+            }
+        }
+    }
+
+    /********************************************************************************************************************************/
+    /** @fcn        func handleDatePicker()
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    @objc func handleDatePicker() {
+
+        print("B");
+        print(Foo.ymd);
+        let dateFormatter = DateFormatter();
+        dateFormatter.dateFormat = Foo.ymd.description;
+        textField.text = dateFormatter.string(from: picker.date);
+        textField.resignFirstResponder();
+        
+        return;
+    }
+    
+
     /********************************************************************************************************************************/
     /** @fcn        func hour(_ date:Date) -> Int
      *  @brief      x

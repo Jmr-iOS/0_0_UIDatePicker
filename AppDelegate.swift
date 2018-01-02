@@ -28,19 +28,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /********************************************************************************************************************************/
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        self.window = UIWindow.init(frame: UIScreen.main.bounds);
+        window = UIWindow.init(frame: UIScreen.main.bounds);
         
-        self.window?.backgroundColor = UIColor.white;
+        window?.backgroundColor = UIColor.white;
         
         let viewController:ViewController = ViewController();
         
         viewController.view.translatesAutoresizingMaskIntoConstraints = false;
         
-        self.window?.rootViewController = viewController;
+        window?.rootViewController = viewController;
         
-        self.window?.makeKeyAndVisible();
+        window?.makeKeyAndVisible();
         
-        print("AppDelegate.application():          Application launch complete");
+        print("AppDelegate.application():          application launch complete");
         
         return true;
     }
