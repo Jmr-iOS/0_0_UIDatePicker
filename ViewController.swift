@@ -41,15 +41,18 @@ import UIKit
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
-    var picker_1col : UIPickerView!;
-    var picker_3col : UIPickerView!;
+    var picker_1col  : UIPickerView!;
+    var picker_3col  : UIPickerView!;
+    var picker_aNote : UIPickerView!;
     
     //Init Data
     var pickerData_1col  : [String]!;
     var pickerData_3col  : [[String]]!;
-    let picker_1col_hash : Int;
-    let picker_3col_hash : Int;
+    var pickerData_aNote : [[String]]!;                                     /* temp                                                 */
     
+    let picker_1col_hash  : Int;
+    let picker_3col_hash  : Int;
+    let picker_aNote_hash : Int;
     
     /********************************************************************************************************************************/
     /** @fcn        init()
@@ -62,16 +65,16 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Init UI
         picker_1col = UIPickerView();
         picker_3col = UIPickerView();
+        picker_aNote = UIPickerView();
         
-        print(picker_1col.hashValue)
-        print(picker_3col.hashValue)
-        
-        picker_1col_hash = picker_1col.hashValue;
-        picker_3col_hash = picker_3col.hashValue;
+        //Hashes
+        picker_1col_hash  = picker_1col.hashValue;
+        picker_3col_hash  = picker_3col.hashValue;
+        picker_aNote_hash = picker_aNote.hashValue;
         
         super.init(nibName: nil, bundle: nil);
         
-        print("My Custom Init");
+        print("My Custom Init - \(picker_1col.hashValue), \(picker_3col.hashValue), \(picker_aNote.hashValue)");
         
         return;
     }
@@ -93,6 +96,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Add Pickers
         addPicker_1col(self.view);
         addPicker_3col(self.view);
+        addPicker_aNote(self.view);
+        
+        genTestArr();
+        getDayOfMonth("2018-01-03");
+        getDayOfMonth("2018-04-13");
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
@@ -137,7 +145,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_3col(_ view:UIView) {
         
         //Set size
-        picker_3col.frame = CGRect(x: 50, y: 110, width: 200, height: 400);
+        picker_3col.frame = CGRect(x: 50, y: 90, width: 200, height: 400);
         
         //Set data
         pickerData_3col = gen3ColData(true);
@@ -156,6 +164,43 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.addSubview(picker_3col);
         
         print("ViewController.addPicker_3col():   picker added");
+        
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        addPicker_aNote(_ view:UIView)
+     *  @brief      x
+     *  @details    x
+     *
+     *  @section    Fields
+     *      "Today        11    15    AM"       R: <365, 24, 2>
+     *      "Thu Jan 4    11    15    AM"       C: 3
+     */
+    /********************************************************************************************************************************/
+    func addPicker_aNote(_ view:UIView) {
+        
+        //Set size
+        picker_aNote.frame = CGRect(x: 50, y: 270, width: 200, height: 400);
+        
+        //Set data
+        pickerData_aNote = gen3ColData(true);
+        
+        print(pickerData_aNote.count);
+        print(pickerData_aNote[0].count);
+        
+        print(pickerData_aNote[0][0]);                                                 /* cols go horiz, rows go vert [R][C]        */
+        //!print(pickerData_aNote[4][0]);
+        
+        // Connect data
+        picker_aNote.delegate   = self;
+        picker_aNote.dataSource = self;
+        
+        //Add to view
+        view.addSubview(picker_aNote);
+        
+        print("ViewController.addPicker_aNote():   picker added");
         
         return;
     }
@@ -187,9 +232,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             //Manual Gen
             data = [["1", "2", "3", "4", "5"],                              /* 5 columns(X), 4 rows(Y),                             */
-                    ["a", "b", "c", "d", "e"],                              /* visual disp is transposed from access                */
-                    ["!", "#", "$", "%", "?"],
-                    ["v", "w", "x", "y", "z"]];
+                ["a", "b", "c", "d", "e"],                              /* visual disp is transposed from access                */
+                ["!", "#", "$", "%", "?"],
+                ["v", "w", "x", "y", "z"]];
         }
         
         return data;
@@ -213,7 +258,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             break;
         case picker_3col_hash:
             val = pickerData_3col[0].count;
-            print("nC:\(val)");
+            break;
+        case picker_aNote_hash:
+            val = pickerData_aNote[0].count;
             break;
         default:
             fatalError();
@@ -240,7 +287,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             break;
         case picker_3col_hash:
             val = pickerData_3col.count;
-            print("R:\(val)");
+            break;
+        case picker_aNote_hash:
+            val = pickerData_aNote.count;
             break;
         default:
             fatalError();
@@ -275,6 +324,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 fatalError("Unexpected array access requested of R:\(row), C:\(component), aborting");
             }
             break;
+        case picker_aNote_hash:
+            if((row<5)&&(component<4)) {
+                val = pickerData_aNote[row][component];
+            } else {
+                fatalError("Unexpected array access requested of R:\(row), C:\(component), aborting");
+            }
+            break;
+
         default:
             fatalError();
         }
@@ -370,5 +427,138 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented");
     }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        genTestArr()
+     *  @brief      generate the aNote data structure
+     *  @details    x
+     *
+     *  @section    Fields
+     *      "Today        11    15    AM"       R: <365, 24, 2>
+     *      "Thu Jan 4    11    15    AM"       C: 3
+     *
+     *  @section    Opens
+     *      fields 0-2 loop
+     *      responds to scrolls with value updates (e.g. when 59->0, increment the hour)
+     */
+    /********************************************************************************************************************************/
+    func genTestArr() {
+        
+        var dateArr  = [String]();
+        var hourArr  = [String]();
+        var minArr   = [String]();
+        var meridArr = [String]();
+
+        
+        //@open     year is selectable?
+        //Col 0 - Date
+            //Mon Jan 1
+            //Tue Jan 2
+            //Today
+            //Sun Jan 7
+        for day in 1...365 {
+            
+            //gen date string
+            let dateFormatter = DateFormatter();
+            dateFormatter.dateFormat = "yyyy D";
+            let date = dateFormatter.date(from: "\(2018) \(day)");
+            let myCalendar = Calendar(identifier: .gregorian);
+            
+            let month : Int = myCalendar.component(.month, from: date!);
+            let day   : Int = myCalendar.component(.day,   from: date!);
+            let year  : Int = myCalendar.component(.year,  from: date!);
+            
+            //get date string
+            let dateStr : String = "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))";
+            
+            //append
+            dateArr.append(dateStr);
+        }
+        
+        //Col 1 - Hour (0..12)
+        for i in 1...12 {
+            hourArr.append("\(i)");
+        }
+        
+        //Col 2 - Min
+        for i in 1...59 {
+            minArr.append("\(i)");
+        }
+        
+        //Col 3 - Date
+        meridArr = ["AM", "PM"];
+        
+        return;
+    }
+    
+    
+    //@todo     header
+    //Jan: 01
+    //Feb: 02
+    func getYear(_ today:String)-> Int {
+        
+        let formatter  = DateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd";
+        let todayDate = formatter.date(from: today);
+        let myCalendar = Calendar(identifier: .gregorian);
+        
+        let month : Int = myCalendar.component(.month, from: todayDate!);
+        let day   : Int = myCalendar.component(.day, from: todayDate!);
+        let year  : Int = myCalendar.component(.year, from: todayDate!);
+        
+        return year;
+    }
+    
+    
+    //@todo     header
+    //Jan: 01
+    //Feb: 02
+    func getMonth(_ today:String)-> Int {
+        
+        let formatter  = DateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd";
+        let todayDate = formatter.date(from: today);
+        let myCalendar = Calendar(identifier: .gregorian);
+        
+        let month : Int = myCalendar.component(.month, from: todayDate!);
+        let day   : Int = myCalendar.component(.day, from: todayDate!);
+        let year  : Int = myCalendar.component(.year, from: todayDate!);
+        
+        return month;
+    }
+    
+
+    //@todo     header
+    //1st: 01
+    //2nd: 02
+    func getDayOfMonth(_ today:String)-> Int {
+        
+        let formatter  = DateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd";
+        let todayDate = formatter.date(from: today);
+        let myCalendar = Calendar(identifier: .gregorian);
+
+        let month : Int = myCalendar.component(.month, from: todayDate!);
+        let day   : Int = myCalendar.component(.day, from: todayDate!);
+        let year  : Int = myCalendar.component(.year, from: todayDate!);
+        
+        return day;
+    }
+    
+    
+    //@todo     header
+    //Su:1
+    //M:2
+    func getDayOfWeek(_ today:String)->Int {
+        let formatter  = DateFormatter();
+        formatter.dateFormat = "yyyy-MM-dd";
+        let todayDate = formatter.date(from: "2018-01-03")!;
+        let myCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!;
+        let myComponents = myCalendar.components(.weekday, from: todayDate);
+        let weekDay = myComponents.weekday;
+        return weekDay!;
+    }
+
 }
 
