@@ -21,20 +21,50 @@
  *      UIDatePicker example
  *      DateFormatter example
  *
+ *  @section    Reference
+ *      https://codewithchris.com/uipickerview-example/
+ *
  * @section    Legal Disclaimer
- *     All contents of this source file and/or any other Jaostech related source files are the explicit property on Jaostech
+ *     All contents of this source file and/or any other Jaostech related source files are the explicit property of Jaostech
  *     Corporation. Do not distribute. Do not copy.
  */
 /************************************************************************************************************************************/
 import UIKit
 
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
     var picker : UIPickerView!;
+
+    //Init Data
+    var pickerData: [String];
     
     
+    /********************************************************************************************************************************/
+    /**    @fcn        init()
+     *  @brief        x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    init() {
+        
+        //Init UI
+        picker = UIPickerView();
+        
+        //Init Data
+        pickerData = [String]();
+        
+        super.init(nibName: nil, bundle: nil);
+        
+        print("My Custom Init");
+        
+        return;
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     /********************************************************************************************************************************/
@@ -45,9 +75,6 @@ class ViewController: UIViewController {
     /********************************************************************************************************************************/
     override func viewDidLoad() {
         
-        //Init UI
-        picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-        
         super.viewDidLoad();
         
         view.backgroundColor = UIColor.white;
@@ -55,12 +82,79 @@ class ViewController: UIViewController {
         
         //addDatePicker(self.view);
         //addCustPicker(self.view);
-            
+        addNewPicker(self.view);
+        
+        
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
         return;
     }
 
+    
+    /********************************************************************************************************************************/
+    /** @fcn        x
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func addNewPicker(_ view:UIView) {
+        
+        //Set size
+        picker.frame = CGRect(x: 50, y: 30, width: 200, height: 100);
+        
+        //Set data
+        pickerData = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+        
+        // Connect data
+        picker.delegate = self;
+        picker.dataSource = self;
+        
+        //Add to view
+        view.addSubview(picker);
+        
+        print("picker added");
+        
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        numberOfComponents(in pickerView: UIPickerView) -> Int
+     *  @brief      The number of columns of data
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1;
+    }
+  
+    
+    /********************************************************************************************************************************/
+    /** @fcn        pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+     *  @brief      The number of rows of data
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
+     *  @brief      The data to return for the row and component (column) that's being passed in
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row];
+    }
+    
+    
+
+    
+    
+//<PREV>
     
     /********************************************************************************************************************************/
     /** @fcn        func addDatePicker(_ view:UIView)
