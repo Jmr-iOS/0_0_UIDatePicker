@@ -94,13 +94,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.translatesAutoresizingMaskIntoConstraints = false;
 
         //Add Pickers
-        addPicker_1col(self.view);
-        addPicker_3col(self.view);
+        //addPicker_1col(self.view);
+        //addPicker_3col(self.view);
         addPicker_aNote(self.view);
         
-        genTestArr();
-        getDayOfMonth("2018-01-03");
-        getDayOfMonth("2018-04-13");
+//        genTestArr();
+//        getDayOfMonth("2018-01-03");
+//        getDayOfMonth("2018-04-13");
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
@@ -182,10 +182,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_aNote(_ view:UIView) {
         
         //Set size
-        picker_aNote.frame = CGRect(x: 50, y: 270, width: 200, height: 400);
+        picker_aNote.frame = CGRect(x: 0, y: 70, width: 330, height: 400);
         
         //Set data
-        pickerData_aNote = gen3ColData(true);
+        pickerData_aNote = genTestArr();
         
         print(pickerData_aNote.count);
         print(pickerData_aNote[0].count);
@@ -260,12 +260,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             val = pickerData_3col[0].count;
             break;
         case picker_aNote_hash:
-            val = pickerData_aNote[0].count;
+            val = pickerData_aNote.count;           //?
+            print("Why:\(val)");
             break;
         default:
             fatalError();
         }
-        
+        print("1->\(val)");
         return val;
     }
   
@@ -289,12 +290,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             val = pickerData_3col.count;
             break;
         case picker_aNote_hash:
-            val = pickerData_aNote.count;
-            break;
+            let sizes = [365, 12, 12, 2];
+            val = sizes[component];
         default:
             fatalError();
         }
-        
         return val;
     }
     
@@ -308,7 +308,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
         let hash = pickerView.hashValue;
-        let val  : String;
+        let val  : String?;
         
         //Disp selection value
         //print("C:\(component), R:\(row)");
@@ -318,25 +318,50 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             val = pickerData_1col[row];
             break;
         case picker_3col_hash:
-            if((row<5)&&(component<4)) {
-                val = pickerData_3col[row][component];
-            } else {
-                fatalError("Unexpected array access requested of R:\(row), C:\(component), aborting");
-            }
+            val = pickerData_3col[row][component];
             break;
         case picker_aNote_hash:
-            if((row<5)&&(component<4)) {
-                val = pickerData_aNote[row][component];
-            } else {
-                fatalError("Unexpected array access requested of R:\(row), C:\(component), aborting");
+            switch(component) {
+            case 0:
+                val = dateArr[row];
+                break;
+            case 1:
+                val = hourArr[row];
+                break;
+            case 2:
+
+                print("\(minArr.count) with \(row)");
+
+                if(row<59) {
+                    val = minArr[row];
+                } else {
+                    val = "X";
+                }
+
+                break;
+            case 3:
+                val = meridArr[row];
+                break;
+            default:
+                fatalError("component \(component) exceeded, aborting");
             }
             break;
-
         default:
             fatalError();
         }
         
         return val;
+    }
+    
+    let colWidths : [CGFloat] = [150, 40, 60, 80];
+    /********************************************************************************************************************************/
+    /** @fcn        pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat
+     *  @brief      return the columns width
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+        return colWidths[component];
     }
 
 //<PREV>
@@ -429,6 +454,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     
+    var dateArr  = [String]();
+    var hourArr  = [String]();
+    var minArr   = [String]();
+    var meridArr = [String]();
+
+    
     /********************************************************************************************************************************/
     /** @fcn        genTestArr()
      *  @brief      generate the aNote data structure
@@ -443,13 +474,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      *      responds to scrolls with value updates (e.g. when 59->0, increment the hour)
      */
     /********************************************************************************************************************************/
-    func genTestArr() {
-        
-        var dateArr  = [String]();
-        var hourArr  = [String]();
-        var minArr   = [String]();
-        var meridArr = [String]();
-
+    func genTestArr() -> [[String]] {
         
         //@open     year is selectable?
         //Col 0 - Date
@@ -465,12 +490,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let date = dateFormatter.date(from: "\(2018) \(day)");
             let myCalendar = Calendar(identifier: .gregorian);
             
-            let month : Int = myCalendar.component(.month, from: date!);
-            let day   : Int = myCalendar.component(.day,   from: date!);
-            let year  : Int = myCalendar.component(.year,  from: date!);
+            let month   : Int = myCalendar.component(.month,   from: date!);
+            let day     : Int = myCalendar.component(.day,     from: date!);
+            let weekday : Int = myCalendar.component(.weekday, from: date!);
             
             //get date string
-            let dateStr : String = "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))";
+//(works) 2018-12-01 - let dateStr : String = "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))";
+            
+            let months : [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            let days   : [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+            let dateStr : String = "\(days[weekday-1]) \(months[month-1]) \(day)";
             
             //append
             dateArr.append(dateStr);
@@ -480,8 +510,35 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         for i in 1...12 {
             hourArr.append("\(i)");
         }
+/*      0
+        5
+        10
+        15
+        20
+        25
+        30
+        35
+        40
+        45
+        50
+        55*/
+        //Col 2 - Min (00..05...55)
+        var t_min : Int = 0;
         
-        //Col 2 - Min
+        while (t_min < 60) {
+            
+            
+            let minStr : String = String(format: "%02d", t_min);
+            
+            print(minStr);
+            
+            minArr.append("\(minStr)");
+            
+            //update for next
+            t_min = t_min + 5;
+        }
+        
+        
         for i in 1...59 {
             minArr.append("\(i)");
         }
@@ -489,7 +546,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Col 3 - Date
         meridArr = ["AM", "PM"];
         
-        return;
+        let retArr = [dateArr, hourArr, minArr, meridArr];
+        
+        return retArr;
     }
     
     
