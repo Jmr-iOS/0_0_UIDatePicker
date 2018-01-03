@@ -9,20 +9,26 @@
  *  @last rev   1/3/18
  *
  *  @section    Reference
+ *      https://codewithchris.com/uipickerview-example/
  *      https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDatePicker_Class/index.html#//apple_ref/occ/cl/UIDatePicker
  *      http://sourcefreeze.com/ios-datepicker-tutorial-uidatepicker-using-swift/
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      switch to UIPickerView <in prog>
- *      custom UIPickerView creation example
- *      confirm, edit & reset buttons with resp
+ *  [X] switch to UIPickerView
+ *      Layout written implementation steps in header
+ *      custom UIPickerView creation example (aNote ref)
+ *      grab & reset buttons with resp (buttons & text view)
  *      tap response
  *      UIDatePicker example
  *      DateFormatter example
  *
- *  @section    Reference
- *      https://codewithchris.com/uipickerview-example/
+ *  @section    Components
+ *      [1] UIPickerView        (picker)
+ *      [2] [[Data]]            (pickerData)
+ *
+ *
+ *  @section    Procedure
  *
  * @section    Legal Disclaimer
  *     All contents of this source file and/or any other Jaostech related source files are the explicit property of Jaostech
@@ -35,35 +41,39 @@ import UIKit
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
-    var picker : UIPickerView!;
-
+    var picker_1col : UIPickerView!;
+    var picker_3col : UIPickerView!;
+    
     //Init Data
-    var pickerData: [String];
+    var pickerData_1col  : [String]!;
+    var pickerData_3col  : [[String]]!;
+    let picker_1col_hash : Int;
+    let picker_3col_hash : Int;
     
     
     /********************************************************************************************************************************/
-    /**    @fcn        init()
-     *  @brief        x
+    /** @fcn        init()
+     *  @brief      x
      *  @details    x
      */
     /********************************************************************************************************************************/
     init() {
         
         //Init UI
-        picker = UIPickerView();
+        picker_1col = UIPickerView();
+        picker_3col = UIPickerView();
         
-        //Init Data
-        pickerData = [String]();
+        print(picker_1col.hashValue)
+        print(picker_3col.hashValue)
+        
+        picker_1col_hash = picker_1col.hashValue;
+        picker_3col_hash = picker_3col.hashValue;
         
         super.init(nibName: nil, bundle: nil);
         
         print("My Custom Init");
         
         return;
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -79,11 +89,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         view.backgroundColor = UIColor.white;
         view.translatesAutoresizingMaskIntoConstraints = false;
-        
-        //addDatePicker(self.view);
-        //addCustPicker(self.view);
-        addNewPicker(self.view);
-        
+
+        //Add Pickers
+        addPicker_1col(self.view);
+        addPicker_3col(self.view);
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
@@ -92,157 +101,188 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     
     /********************************************************************************************************************************/
-    /** @fcn        x
+    /** @fcn        addPicker_1col(_ view:UIView)
      *  @brief      x
      *  @details    x
      */
     /********************************************************************************************************************************/
-    func addNewPicker(_ view:UIView) {
+    func addPicker_1col(_ view : UIView) {
         
         //Set size
-        picker.frame = CGRect(x: 50, y: 30, width: 200, height: 100);
+        picker_1col.frame = CGRect(x: 50, y: 75,  width: 200, height: 100);
         
         //Set data
-        pickerData = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+        pickerData_1col = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+        print(pickerData_1col.count);
         
         // Connect data
-        picker.delegate = self;
-        picker.dataSource = self;
+        picker_1col.delegate   = self;
+        picker_1col.dataSource = self;
         
         //Add to view
-        view.addSubview(picker);
+        view.addSubview(picker_1col);
         
-        print("picker added");
+        print("ViewController.addPicker_1col():   picker added");
         
         return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        addPicker_3col(_ view:UIView)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func addPicker_3col(_ view:UIView) {
+        
+        //Set size
+        picker_3col.frame = CGRect(x: 50, y: 110, width: 200, height: 400);
+        
+        //Set data
+        pickerData_3col = gen3ColData(true);
+        
+        print(pickerData_3col.count);
+        print(pickerData_3col[0].count);
+
+        print(pickerData_3col[0][0]);       											/* cols go horiz, rows go vert [R][C]		*/
+        //!print(pickerData_3col[4][0]);
+        
+        // Connect data
+        picker_3col.delegate   = self;
+        picker_3col.dataSource = self;
+        
+        //Add to view
+        view.addSubview(picker_3col);
+        
+        print("ViewController.addPicker_3col():   picker added");
+        
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        gen3ColData(_ isGenerated : Bool) -> [[String]]
+     *  @brief      return a 2D array either manually or programmatically
+     *  @details    show the difference
+     */
+    /********************************************************************************************************************************/
+    func gen3ColData(_ isGenerated : Bool) -> [[String]] {
+        
+        var data : [[String]];
+        
+        let colNames : [String] = ["A", "B", "C", "D", "E"];
+        
+        if(isGenerated) {
+            //Code Gen
+            data = [[String]]();
+            
+            for i in 0...4 {                                                /* [Cols]                                               */
+                var newArr : [String] = [String]();
+                for j in 0...3 {                                            /* [Rows]    [C][R] <-> [X][Y] <-> <X,Y>                */
+                    newArr.append("\(colNames[i])\(j)");
+                }
+                data.append(newArr);
+            }
+        } else {
+            //Manual Gen
+            data = [["1", "2", "3", "4", "5"],                              /* 5 columns(X), 4 rows(Y),                             */
+                    ["a", "b", "c", "d", "e"],                              /* visual disp is transposed from access                */
+                    ["!", "#", "$", "%", "?"],
+                    ["v", "w", "x", "y", "z"]];
+        }
+        
+        return data;
     }
     
     
     /********************************************************************************************************************************/
     /** @fcn        numberOfComponents(in pickerView: UIPickerView) -> Int
      *  @brief      The number of columns of data
-     *  @details    x
+     *  @details    called in picker initialization
      */
     /********************************************************************************************************************************/
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1;
+        
+        let hash = pickerView.hashValue;
+        let val  : Int;
+        
+        switch(hash) {
+        case picker_1col_hash:
+            val = 1;
+            break;
+        case picker_3col_hash:
+            val = pickerData_3col[0].count;
+            print("nC:\(val)");
+            break;
+        default:
+            fatalError();
+        }
+        
+        return val;
     }
   
     
     /********************************************************************************************************************************/
     /** @fcn        pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
      *  @brief      The number of rows of data
-     *  @details    x
+     *  @details    called on picker generation
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count;
+        
+        let hash = pickerView.hashValue;
+        let val  : Int;
+        
+        switch(hash) {
+        case picker_1col_hash:
+            val = pickerData_1col.count;
+            break;
+        case picker_3col_hash:
+            val = pickerData_3col.count;
+            print("R:\(val)");
+            break;
+        default:
+            fatalError();
+        }
+        
+        return val;
     }
     
     
     /********************************************************************************************************************************/
     /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
      *  @brief      The data to return for the row and component (column) that's being passed in
-     *  @details    x
+     *  @details    called on picker scroll
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row];
-    }
-    
-    
-
-    
-    
-//<PREV>
-    
-    /********************************************************************************************************************************/
-    /** @fcn        func addDatePicker(_ view:UIView)
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    func depr_addDatePicker(_ view:UIView) {
-
-        let datePicker:UIDatePicker = UIDatePicker(frame: CGRect(x: 20, y: 50, width: UIScreen.main.bounds.width-40, height: 100));
         
-        let currDate:Date = datePicker.date;
+        let hash = pickerView.hashValue;
+        let val  : String;
         
-        datePicker.backgroundColor = UIColor.red;
-        datePicker.translatesAutoresizingMaskIntoConstraints = true;
+        //Disp selection value
+        //print("C:\(component), R:\(row)");
         
-        print("ViewController.addDatePicker():     added date picker for \(currDate), of \(hour(currDate)) and \(minute(currDate))");
-        
-        view.addSubview(datePicker);
-
-        return;
-    }
-
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        func addCustPicker(_ view:UIView)
-     *  @brief      x
-     *  @details    x
-     *
-     *  @section    Reference
-     *      https://developer.apple.com/documentation/uikit/uidatepicker
-     */
-    /********************************************************************************************************************************/
-    func depr_addCustPicker(_ view:UIView) {
-        let textField = UITextField();
-        var picker_prev = UIDatePicker();
-
-        print("A");
-        
-        picker_prev = UIDatePicker(frame: CGRect(x: 20, y: 225, width: UIScreen.main.bounds.width-40, height: 100));
-        textField.inputView = picker_prev;
-        picker_prev.addTarget(self, action: #selector(ViewController.handleDatePicker), for: UIControlEvents.valueChanged);
-        picker_prev.datePickerMode = .date;
-        
-        picker_prev.backgroundColor = UIColor.blue;
-        
-        view.addSubview(picker_prev)
-        
-        return;
-    }
-        
-    
-    enum Foo : CustomStringConvertible {
-        case dmy;
-        case ymd;
-        case Boom;
-        
-        var description : String {
-            switch self {
-            case .dmy: return "dd-MM-yyyy";                             /* November 2 2018                                          */
-            case .ymd: return "YYYY-MM-dd HH:mm";                       /* */
-            case .Boom: return "Boom";
+        switch(hash) {
+        case picker_1col_hash:
+            val = pickerData_1col[row];
+            break;
+        case picker_3col_hash:
+            if((row<5)&&(component<4)) {
+                val = pickerData_3col[row][component];
+            } else {
+                fatalError("Unexpected array access requested of R:\(row), C:\(component), aborting");
             }
+            break;
+        default:
+            fatalError();
         }
+        
+        return val;
     }
 
-    /********************************************************************************************************************************/
-    /** @fcn        func handleDatePicker()
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    @objc func handleDatePicker() {
-        let textField = UITextField();
-        let picker_prev = UIDatePicker();
-        
-        print("B");
-        print(Foo.ymd);
-        let dateFormatter = DateFormatter();
-        dateFormatter.dateFormat = Foo.ymd.description;
-        textField.text = dateFormatter.string(from: picker_prev.date);
-        textField.resignFirstResponder();
-        
-        return;
-    }
-    
-
+//<PREV>
     /********************************************************************************************************************************/
     /** @fcn        func hour(_ date:Date) -> Int
      *  @brief      x
@@ -307,6 +347,28 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         super.didReceiveMemoryWarning();
 
         return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        getHash(picker : NSObject) -> Int
+     *  @brief      get hash of object
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func getHash(object : NSObject) -> Int {
+        return object.hashValue;
+    }
+    
+
+    /********************************************************************************************************************************/
+    /** @fcn        init?(coder aDecoder: NSCoder)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented");
     }
 }
 
