@@ -15,7 +15,6 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      Generate Class Wrapper for ANoteTable & handlles
  *      Close Opens (all headers)
  *      Clean & Push, including all headers
  *  ...
@@ -32,9 +31,22 @@
  *  @section    Components
  *      [1] UIPickerView        (picker)
  *      [2] [[Data]]            (pickerData)
- *
+ *      [3] Delegate            (self)
+ *      [4] DataSource          (self)
  *
  *  @section    Procedure
+ *      init picker (UIPickerView)                          @ref    ViewController.swift:90
+ *      set the delegate & source                           @ref    ViewController.swift:195
+ *      implement delegate protocol                         @ref    ViewController.swift
+ *          pickerView:rowHeightForComponent:                        row height for drawing row
+ *          pickerView:widthForComponent:                            row width for drawing row
+ *          pickerView:titleForRow:forComponent:                     get title to use for a given row in a given component
+ *          pickerView:attributedTitleForRow:forComponent:           get styled title to use for a given row in a given component
+ *          pickerView:viewForRow:forComponent:reusingView:          view to use for a given row in a given component
+ *          pickerView:didSelectRow:inComponent:                     when the user selects a row in a component
+ *      implement source protocol                           @ref    ViewController.swift
+ *          numberOfComponents(in: UIPickerView):                    number of components in picker
+ *          pickerView(UIPickerView, numRowsInComp: Int):            number of rows for a specified component
  *
  * @section    Legal Disclaimer
  *     All contents of this source file and/or any other Jaostech related source files are the explicit property of Jaostech
