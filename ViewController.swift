@@ -15,9 +15,6 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      move ANotePickerView to lib
- *      move ViewController.selectedRowValue to lib
- *      move Dimension enum to lib
  *      tap response
  *      UIDatePicker example
  *      DateFormatter example
@@ -74,7 +71,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     //Constants
     let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
-    
+
     
     /********************************************************************************************************************************/
     /** @fcn        init()
@@ -301,9 +298,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         
         //Print picker 3
-        var s : String = "[" + ViewController.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
+        var s : String = "[" + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
         for ic in 1...3 {
-            s = s + ", " + ViewController.selectedRowValue(handler: self, picker: picker_3col, ic: ic);
+            s = s + ", " + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: ic);
         }
         s = s + "]";
         
@@ -483,27 +480,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /********************************************************************************************************************************/
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented");
-    }
-
-    
-
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        class func selectedRowValue(handler : UIPickerViewDelegate, picker : UIPickerView, ic : Int) -> String
-     *  @brief      get value of selected column (ic)
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    class func selectedRowValue(handler : UIPickerViewDelegate, picker : UIPickerView, ic : Int) -> String {
-        
-        //Row Index
-        let ir  = picker.selectedRow(inComponent: ic);
-        
-        //Value
-        let val = handler.pickerView!(picker, titleForRow:  ir, forComponent: ic);
-        
-        return val!;
     }
     
     

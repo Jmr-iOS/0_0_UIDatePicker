@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D031BD651FFD826600234DC4 /* ANotePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031BD641FFD826600234DC4 /* ANotePickerView.swift */; };
+		D04199BA1FFEC0C600CFCDE3 /* ANotePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */; };
+		D04199BC1FFEC29400CFCDE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04199BB1FFEC29400CFCDE3 /* Utils.swift */; };
 		D09519161FFC2AB8006E8F9A /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D09519131FFC2AB7006E8F9A /* Base.lproj */; };
 		D09519181FFC2AB8006E8F9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09519151FFC2AB8006E8F9A /* Assets.xcassets */; };
 		D095191C1FFC2AE0006E8F9A /* Empty.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D09519191FFC2AE0006E8F9A /* Empty.storyboard */; };
@@ -18,8 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D031BD641FFD826600234DC4 /* ANotePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ANotePickerView.swift; path = ../Data/ANotePickerView.swift; sourceTree = "<group>"; };
 		D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIPickerView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ANotePickerView.swift; path = "../../../../../Ref/Libraries/Programmatic UI/ANotePickerView.swift"; sourceTree = "<group>"; };
+		D04199BB1FFEC29400CFCDE3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../Ref/Libraries/Programmatic UI/Utils.swift"; sourceTree = "<group>"; };
 		D09519131FFC2AB7006E8F9A /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		D09519141FFC2AB7006E8F9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D09519151FFC2AB8006E8F9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -44,7 +46,7 @@
 		D031BD661FFD826B00234DC4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				D031BD641FFD826600234DC4 /* ANotePickerView.swift */,
+				D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -75,6 +77,7 @@
 				D09519141FFC2AB7006E8F9A /* Info.plist */,
 				D095191A1FFC2AE0006E8F9A /* NewClass.swift */,
 				D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */,
+				D04199BB1FFEC29400CFCDE3 /* Utils.swift */,
 				D09519191FFC2AE0006E8F9A /* Empty.storyboard */,
 				D039B4B71BF4D7950024005F /* Products */,
 			);
@@ -157,8 +160,9 @@
 				D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */,
 				D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */,
 				D095191D1FFC2AE0006E8F9A /* NewClass.swift in Sources */,
-				D031BD651FFD826600234DC4 /* ANotePickerView.swift in Sources */,
+				D04199BA1FFEC0C600CFCDE3 /* ANotePickerView.swift in Sources */,
 				D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */,
+				D04199BC1FFEC29400CFCDE3 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
