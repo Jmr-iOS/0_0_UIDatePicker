@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D031BD651FFD826600234DC4 /* ANotePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031BD641FFD826600234DC4 /* ANotePicker.swift */; };
+		D031BD651FFD826600234DC4 /* ANotePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D031BD641FFD826600234DC4 /* ANotePickerView.swift */; };
 		D09519161FFC2AB8006E8F9A /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D09519131FFC2AB7006E8F9A /* Base.lproj */; };
 		D09519181FFC2AB8006E8F9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09519151FFC2AB8006E8F9A /* Assets.xcassets */; };
 		D095191C1FFC2AE0006E8F9A /* Empty.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D09519191FFC2AE0006E8F9A /* Empty.storyboard */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D031BD641FFD826600234DC4 /* ANotePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ANotePicker.swift; path = ../Data/ANotePicker.swift; sourceTree = "<group>"; };
+		D031BD641FFD826600234DC4 /* ANotePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ANotePickerView.swift; path = ../Data/ANotePickerView.swift; sourceTree = "<group>"; };
 		D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIPickerView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09519131FFC2AB7006E8F9A /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		D09519141FFC2AB7006E8F9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,7 +44,7 @@
 		D031BD661FFD826B00234DC4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				D031BD641FFD826600234DC4 /* ANotePicker.swift */,
+				D031BD641FFD826600234DC4 /* ANotePickerView.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -157,7 +157,7 @@
 				D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */,
 				D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */,
 				D095191D1FFC2AE0006E8F9A /* NewClass.swift in Sources */,
-				D031BD651FFD826600234DC4 /* ANotePicker.swift in Sources */,
+				D031BD651FFD826600234DC4 /* ANotePickerView.swift in Sources */,
 				D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

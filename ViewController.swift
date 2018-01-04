@@ -49,29 +49,20 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //UI
     var picker_1col  : UIPickerView;
     var picker_3col  : UIPickerView;
-    var picker_aNote : UIPickerView;
+    var picker_aNote : ANotePickerView!;
     var get_button   : UIButton;
     var rst_button   : UIButton;
     
     //Init Data
-    var pickerData_1col  : [String]!;
-    var pickerData_3col  : [[String]]!;
-    var pickerData_aNote : [[String]]!;
+    var pickerData_1col : [String]!;
+    var pickerData_3col : [[String]]!;
     
     let picker_1col_hash  : Int;
     let picker_3col_hash  : Int;
-    let picker_aNote_hash : Int;
     
     var picker_1col_wraps : Bool!;
-    
-    //Data
-    var dateArr  = [String]();
-    var hourArr  = [String]();
-    var minArr   = [String]();
-    var meridArr = [String]();
 
     //Constants
-    let aNote_colWidths  : [CGFloat] = [150, 40, 60, 80];
     let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
     
     
@@ -86,7 +77,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Init UI
         picker_1col = UIPickerView();
         picker_3col = UIPickerView();
-        picker_aNote = UIPickerView();
         
         get_button = UIButton();
         rst_button = UIButton();
@@ -94,7 +84,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Hashes
         picker_1col_hash  = picker_1col.hashValue;
         picker_3col_hash  = picker_3col.hashValue;
-        picker_aNote_hash = picker_aNote.hashValue;
         
         super.init(nibName: nil, bundle: nil);
 
@@ -162,76 +151,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.view.addSubview(rst_button);
         
         print("ViewController.addButtons():        buttons added");
-        
-        return;
-    }
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        getPressed(_ sender: UIButton!)
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    @objc func getPressed(_ sender: UIButton!) {
-        
-        //Print picker 1
-        let x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
-        
-        print("ViewController.getPressed():        Picker 1 - '\(picker_1col_vals[x])'");
-        
-        
-        //Print picker 3
-        var s : String = "[" + selectedRowValue(picker: picker_3col, ic: 0);
-        for ic in 1...3 {
-            s = s + ", " + selectedRowValue(picker: picker_3col, ic: ic);
-        }
-        s = s + "]";
-
-        print("ViewController.getPressed():        Picker 3 - '\(s)'");
-        
-        
-        //Print aNote picker
-        s = "[" + selectedRowValue(picker: picker_aNote, ic: 0);
-        for ic in 1...3 {
-            s = s + ", " + selectedRowValue(picker: picker_aNote, ic: ic);
-        }
-        s = s + "]";
-        
-        print("ViewController.getPressed():        aNote Picker - '\(s)'");
-        
-        
-        print("ViewController.getPressed():        \(sender.titleLabel!.text!) response complete");
-        
-        return;
-    }
-
-    
-    /********************************************************************************************************************************/
-    /** @fcn        resetPressed(_ sender: UIButton!)
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    @objc func resetPressed(_ sender: UIButton!) {
-        
-        //Picker 1
-        let p1_middle = picker_1col.numberOfRows(inComponent: 0)/2;
-        picker_1col.selectRow(p1_middle, inComponent: 0, animated: true);
-        
-        //Picker 3
-        for i in 0...3 {
-            picker_3col.selectRow(0, inComponent: i, animated: true);
-        }
-        
-        //ANoterPicker
-        picker_aNote.selectRow((10_000/2), inComponent: 0, animated: true);
-        picker_aNote.selectRow((10_000/2), inComponent: 1, animated: true);
-        picker_aNote.selectRow((10_000/2), inComponent: 2, animated: true);
-        picker_aNote.selectRow(1,          inComponent: 3, animated: true);
-        
-        
-        print("ViewController.resetPressed():      \(sender.titleLabel!.text!) response complete");
         
         return;
     }
@@ -309,37 +228,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /** @fcn        addPicker_aNote(_ view:UIView)
      *  @brief      x
      *  @details    x
-     *
-     *  @section    Fields
-     *      "Today        11    15    AM"
-     *      "Thu Jan 4    11    15    AM"
-     *
-     *  @section    Opens
-     *      scroll to today
      */
     /********************************************************************************************************************************/
     func addPicker_aNote(_ view:UIView) {
-        
-        //Set size
-        picker_aNote.frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
 
-        //Set data
-        pickerData_aNote = genTestArr();
+        picker_aNote = ANotePickerView();
         
-        // Connect data
-        picker_aNote.delegate   = self;
-        picker_aNote.dataSource = self;
-        
-        //Init scroll position
-        picker_aNote.selectRow((10_000/2), inComponent: 0, animated: false);
-        picker_aNote.selectRow((10_000/2), inComponent: 1, animated: false);
-        picker_aNote.selectRow((10_000/2), inComponent: 2, animated: false);
-        picker_aNote.selectRow(1,          inComponent: 3, animated: false);
-        
-        //Add to view
         view.addSubview(picker_aNote);
         
-        print("ViewController.addPicker_aNote():   picker added");
+        print("ViewController.addPicker_aNote()    picker added");
         
         return;
     }
@@ -371,14 +268,77 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             //Manual Gen
             data = [["1", "2", "3", "4", "5"],                              /* 5 columns(X), 4 rows(Y),                             */
-                ["a", "b", "c", "d", "e"],                              /* visual disp is transposed from access                */
+                ["a", "b", "c", "d", "e"],                                  /* visual disp is transposed from access                */
                 ["!", "#", "$", "%", "?"],
                 ["v", "w", "x", "y", "z"]];
         }
         
         return data;
     }
+
+
+    /********************************************************************************************************************************/
+    /** @fcn        getPressed(_ sender: UIButton!)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    @objc func getPressed(_ sender: UIButton!) {
+        
+        //Print picker 1
+        let x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
+        
+        print("ViewController.getPressed():        Picker 1 - '\(picker_1col_vals[x])'");
+        
+        
+        //Print picker 3
+        var s : String = "[" + selectedRowValue(picker: picker_3col, ic: 0);
+        for ic in 1...3 {
+            s = s + ", " + selectedRowValue(picker: picker_3col, ic: ic);
+        }
+        s = s + "]";
+        
+        print("ViewController.getPressed():        Picker 3 - '\(s)'");
+        
+        
+        //Print aNote picker
+        s = picker_aNote.getAsString();
+        
+        print("ViewController.getPressed():        aNote Picker - '\(s)'");
+        
+        
+        print("ViewController.getPressed():        \(sender.titleLabel!.text!) response complete");
+        
+        return;
+    }
     
+    
+    /********************************************************************************************************************************/
+    /** @fcn        resetPressed(_ sender: UIButton!)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    @objc func resetPressed(_ sender: UIButton!) {
+        
+        //Picker 1
+        let p1_middle = picker_1col.numberOfRows(inComponent: 0)/2;
+        picker_1col.selectRow(p1_middle, inComponent: 0, animated: true);
+        
+        //Picker 3
+        for i in 0...3 {
+            picker_3col.selectRow(0, inComponent: i, animated: true);
+        }
+        
+        //ANoterPicker
+        picker_aNote.resetPressed();
+        
+        
+        print("ViewController.resetPressed():      \(sender.titleLabel!.text!) response complete");
+        
+        return;
+    }
+
     
     /********************************************************************************************************************************/
     /** @fcn        numberOfComponents(in pickerView: UIPickerView) -> Int
@@ -397,9 +357,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             break;
         case picker_3col_hash:
             val = pickerData_3col[0].count;
-            break;
-        case picker_aNote_hash:
-            val = pickerData_aNote.count;
             break;
         default:
             fatalError();
@@ -427,9 +384,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case picker_3col_hash:
             val = pickerData_3col.count;
             break;
-        case picker_aNote_hash:
-            let sizes = [10_000, 10_000, 10_000, 2];
-            val = sizes[component];
         default:
             fatalError();
         }
@@ -464,25 +418,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case picker_3col_hash:
             val = pickerData_3col[row][component];
             break;
-        case picker_aNote_hash:
-            switch(component) {
-            case 0:
-                val = dateArr[row%dateArr.count];
-                break;
-            case 1:
-                val = hourArr[row%hourArr.count];
-                break;
-            case 2:
-                let c = (row%minArr.count);                                             /* unexpected bug if used direct            */
-                val = minArr[c];
-                break;
-            case 3:
-                val = meridArr[row];
-                break;
-            default:
-                fatalError("component \(component) exceeded, aborting");
-            }
-            break;
         default:
             fatalError();
         }
@@ -503,8 +438,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 return 150;
             case picker_3col_hash:
                 return 50;
-            case picker_aNote_hash:
-                return aNote_colWidths[component];
             default:
                 fatalError("unexpected hash value, aborting");
         }
@@ -600,71 +533,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
 
     
-    /********************************************************************************************************************************/
-    /** @fcn        genTestArr()
-     *  @brief      generate the aNote data structure
-     *  @details    x
-     *
-     *  @section    Fields
-     *      "Today        11    15    AM"       R: <365, 24, 2>
-     *      "Thu Jan 4    11    15    AM"       C: 3
-     *
-     *  @section    Opens
-     *      fields 0-2 loop
-     *      responds to scrolls with value updates (e.g. when 59->0, increment the hour)
-     */
-    /********************************************************************************************************************************/
-    func genTestArr() -> [[String]] {
-        
-        //@open     year is selectable?
-        //Col 0 - Date
-            //Mon Jan 1
-            //Tue Jan 2
-            //Today
-            //Sun Jan 7
-        for day in 1...365 {
-            
-            //gen date string
-            let dateFormatter = DateFormatter();
-            dateFormatter.dateFormat = "yyyy D";
-            let date = dateFormatter.date(from: "\(2018) \(day)");
-            let myCalendar = Calendar(identifier: .gregorian);
-            
-            let month   : Int = myCalendar.component(.month,   from: date!);
-            let day     : Int = myCalendar.component(.day,     from: date!);
-            let weekday : Int = myCalendar.component(.weekday, from: date!);
-            
-            //get date string
-            let months : [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            let days   : [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            
-            let dateStr : String = "\(days[weekday-1]) \(months[month-1]) \(day)";
-            
-            //append
-            dateArr.append(dateStr);
-        }
-        
-        //Col 1 - Hour (0..12)
-        for i in 1...12 {
-            hourArr.append("\(i)");
-        }
 
-        //Col 2 - Min (00..05...55)
-        var t_min : Int = 0;
-        
-        while (t_min < 60) {
-            let minStr : String = String(format: "%02d", t_min);
-            minArr.append("\(minStr)");
-            t_min = t_min + 5;                                                  /* update for next                                  */
-        }
-        
-        //Col 3 - Date
-        meridArr = ["AM", "PM"];
-        
-        let retArr = [dateArr, hourArr, minArr, meridArr];
-        
-        return retArr;
-    }
     
     
     //@todo     header & comment with example
