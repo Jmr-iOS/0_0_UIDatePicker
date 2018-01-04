@@ -15,15 +15,13 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      Close Opens (all headers)
- *      Clean & Push, including all headers
- *  ...
- *      Layout written implementation steps in header
- *      custom UIPickerView creation example (aNote ref)
- *      grab & reset buttons with resp (buttons & text view)
+ *      close Opens (all headers)
+ *      move ANotePickerView to lib
+ *      move ViewController.selectedRowValue to lib
  *      tap response
  *      UIDatePicker example
  *      DateFormatter example
+ *      Clean & Push, including all headers
  *
  *  @section    Future Opens
  *      respond to pickerview selections (was having difficulties in previous attempt)
@@ -140,7 +138,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      */
     /********************************************************************************************************************************/
     func addButtons(_ view:UIView) {
-        
         
         //Get Button Init
         get_button = UIButton(type: UIButtonType.roundedRect);
@@ -304,9 +301,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         
         //Print picker 3
-        var s : String = "[" + selectedRowValue(picker: picker_3col, ic: 0);
+        var s : String = "[" + ViewController.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
         for ic in 1...3 {
-            s = s + ", " + selectedRowValue(picker: picker_3col, ic: ic);
+            s = s + ", " + ViewController.selectedRowValue(handler: self, picker: picker_3col, ic: ic);
         }
         s = s + "]";
         
@@ -415,9 +412,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let hash = pickerView.hashValue;
         let val  : String?;
         
-        //Disp selection value
-        //print("C:\(component), R:\(row)");
-        
         switch(hash) {
         case picker_1col_hash:
 
@@ -455,61 +449,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
     }
 
-//<PREV>
-    /********************************************************************************************************************************/
-    /** @fcn        func hour(_ date:Date) -> Int
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    func hour(_ date:Date) -> Int {
-        
-        //Get Hour
-        let calendar = Calendar.current;
-        let components = (calendar as NSCalendar).components(NSCalendar.Unit.hour, from: date);
-        let hour = components.hour;
-        
-        //Return Hour
-        return hour!;
-    }
     
-    
-    /********************************************************************************************************************************/
-    /** @fcn        func minute(_ date:Date) -> Int
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    func minute(_ date:Date) -> Int {
-        
-        //Get Minute
-        let calendar = Calendar.current;
-        let components = (calendar as NSCalendar).components(NSCalendar.Unit.minute, from: date);
-        let minute = components.minute;
-        
-        //Return Minute
-        return minute!;
-    }
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        func toShortTimeString(_ date:Date) -> String
-     *  @brief      x
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    func toShortTimeString(_ date:Date) -> String {
-        
-        //Get Short Time String
-        let formatter = DateFormatter();
-        formatter.timeStyle = .short;
-        let timeString = formatter.string(from: date);
-        
-        //Return Short Time String
-        return timeString;
-    }
-    
-
     /********************************************************************************************************************************/
     /** @fcn        override func didReceiveMemoryWarning()
      *  @brief      x
@@ -548,22 +488,31 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
 
     
     
-    //@todo     header & comment with example
-    func selectedRowValue(picker : UIPickerView, ic : Int) -> String {
+    /********************************************************************************************************************************/
+    /** @fcn        class func selectedRowValue(handler : UIPickerViewDelegate, picker : UIPickerView, ic : Int) -> String
+     *  @brief      get value of selected column (ic)
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    class func selectedRowValue(handler : UIPickerViewDelegate, picker : UIPickerView, ic : Int) -> String {
         
         //Row Index
         let ir  = picker.selectedRow(inComponent: ic);
         
         //Value
-        let val = self.pickerView(picker,
-                                  titleForRow:  ir,
-                                  forComponent: ic);
+        let val = handler.pickerView!(picker, titleForRow:  ir, forComponent: ic);
+        
         return val!;
     }
     
     
-    //@todo     header
-    func getMonth(_ today:String)-> Int {
+    /********************************************************************************************************************************/
+    /** @fcn        func getMonth(_ today:String)-> Int
+     *  @brief      get a field from passed date string
+     *  @details    for reference
+     */
+    /********************************************************************************************************************************/
+    class func getMonth(_ today:String)-> Int {
         
         let formatter  = DateFormatter();
         formatter.dateFormat = "yyyy-MM-dd";

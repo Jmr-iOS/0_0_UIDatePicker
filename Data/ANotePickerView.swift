@@ -221,10 +221,10 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     /********************************************************************************************************************************/
     func getAsString() -> String {
     
-        var s = "[" + selectedRowValue(picker: self, ic: 0);
+        var s = "[" + ViewController.selectedRowValue(handler: self, picker: self, ic: 0);
 
         for ic in 1...3 {
-            s = s + ", " + selectedRowValue(picker: self, ic: ic);
+            s = s + ", " + ViewController.selectedRowValue(handler: self, picker: self, ic: ic);
         }
         s = s + "]";
         
@@ -248,20 +248,6 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
             case .rows:
                 return self.genTestArr()[0].count;          /* @todo    !!!                                                         */
         }
-    }
-
-    
-    //@todo     move to lib and deprecate from here, brought by copy 1/4/18
-    func selectedRowValue(picker : UIPickerView, ic : Int) -> String {
-        
-        //Row Index
-        let ir  = picker.selectedRow(inComponent: ic);
-        
-        //Value
-        let val = self.pickerView(picker,
-                                  titleForRow:  ir,
-                                  forComponent: ic);
-        return val!;
     }
     
     
