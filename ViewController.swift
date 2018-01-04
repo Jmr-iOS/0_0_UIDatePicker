@@ -48,11 +48,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //Init Data
     var pickerData_1col  : [String]!;
     var pickerData_3col  : [[String]]!;
-    var pickerData_aNote : [[String]]!;                                     /* temp                                                 */
+    var pickerData_aNote : [[String]]!;
     
     let picker_1col_hash  : Int;
     let picker_3col_hash  : Int;
     let picker_aNote_hash : Int;
+    
+    var picker_1col_wraps : Bool!;
+    
     
     /********************************************************************************************************************************/
     /** @fcn        init()
@@ -94,7 +97,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.translatesAutoresizingMaskIntoConstraints = false;
 
         //Add Pickers
-        //addPicker_1col(self.view);
+        //addPicker_1col(self.view, true);
         //addPicker_3col(self.view);
         addPicker_aNote(self.view);
         
@@ -110,14 +113,23 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     /********************************************************************************************************************************/
     /** @fcn        addPicker_1col(_ view:UIView)
-     *  @brief      x
+     *  @brief
      *  @details    x
+     *
+     *  @section    Wrapping Scroll Effect
+     *      @goal   make so big you'll never scroll to end and scroll to middle. Then just mod for result!
+     *      @extend pickerView(numberOfRowsInComponent) -> 10_000
+     *      @access pickerView(row) { val = data[row%data.count] }
+     *      @setup  picker.selectRow('middle', inComponent: 0, animated: false);
      */
     /********************************************************************************************************************************/
-    func addPicker_1col(_ view : UIView) {
+    func addPicker_1col(_ view : UIView,_ wraps : Bool) {
+        
+        //Store wrap cfg
+        picker_1col_wraps = wraps;
         
         //Set size
-        picker_1col.frame = CGRect(x: 50, y: 75,  width: 200, height: 100);
+        picker_1col.frame = CGRect(x: 50, y: 75,  width: 200, height: 200);
         
         //Set data
         pickerData_1col = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
@@ -126,6 +138,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // Connect data
         picker_1col.delegate   = self;
         picker_1col.dataSource = self;
+        
+        //Scroll to middle (hide edges)
+        if(wraps) {
+            picker_1col.selectRow((10_000/2), inComponent: 0, animated: false);
+        }
         
         //Add to view
         view.addSubview(picker_1col);
@@ -177,6 +194,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      *  @section    Fields
      *      "Today        11    15    AM"       R: <365, 24, 2>
      *      "Thu Jan 4    11    15    AM"       C: 3
+     *
+     *  @section    Opens
+     *      scroll to today
      */
     /********************************************************************************************************************************/
     func addPicker_aNote(_ view:UIView) {
@@ -196,6 +216,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         // Connect data
         picker_aNote.delegate   = self;
         picker_aNote.dataSource = self;
+        
+        //Init scroll position
+        picker_aNote.selectRow((10_000/2), inComponent: 0, animated: false);
+        picker_aNote.selectRow((10_000/2), inComponent: 1, animated: false);
+        picker_aNote.selectRow((10_000/2), inComponent: 2, animated: false);
         
         //Add to view
         view.addSubview(picker_aNote);
@@ -260,8 +285,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             val = pickerData_3col[0].count;
             break;
         case picker_aNote_hash:
-            val = pickerData_aNote.count;           //?
-            print("Why:\(val)");
+            val = pickerData_aNote.count;
             break;
         default:
             fatalError();
@@ -284,17 +308,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         switch(hash) {
         case picker_1col_hash:
-            val = pickerData_1col.count;
+            val = (picker_1col_wraps) ? 10_000 : pickerData_1col.count;                 /* apply large val if wraps                 */
             break;
         case picker_3col_hash:
             val = pickerData_3col.count;
             break;
         case picker_aNote_hash:
-            let sizes = [365, 12, 12, 2];
+            let sizes = [10_000, 10_000, 10_000, 2];
             val = sizes[component];
         default:
             fatalError();
         }
+        print("2->\(val)");
         return val;
     }
     
@@ -315,7 +340,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         switch(hash) {
         case picker_1col_hash:
-            val = pickerData_1col[row];
+
+            if(picker_1col_wraps) {
+                val = pickerData_1col[row%pickerData_1col.count];
+            } else {
+                val = pickerData_1col[row];
+            }
             break;
         case picker_3col_hash:
             val = pickerData_3col[row][component];
@@ -323,21 +353,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         case picker_aNote_hash:
             switch(component) {
             case 0:
-                val = dateArr[row];
+                val = dateArr[row%dateArr.count];
                 break;
             case 1:
-                val = hourArr[row];
+                val = hourArr[row%hourArr.count];
                 break;
             case 2:
-
-                print("\(minArr.count) with \(row)");
-
-                if(row<59) {
-                    val = minArr[row];
-                } else {
-                    val = "X";
-                }
-
+                let c = (row%minArr.count);                                             /* unexpected bug if used direct            */
+                val = minArr[c];
                 break;
             case 3:
                 val = meridArr[row];
@@ -495,8 +518,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             let weekday : Int = myCalendar.component(.weekday, from: date!);
             
             //get date string
-//(works) 2018-12-01 - let dateStr : String = "\(year)-\(String(format: "%02d", month))-\(String(format: "%02d", day))";
-            
             let months : [String] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             let days   : [String] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
             
@@ -510,37 +531,14 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         for i in 1...12 {
             hourArr.append("\(i)");
         }
-/*      0
-        5
-        10
-        15
-        20
-        25
-        30
-        35
-        40
-        45
-        50
-        55*/
+
         //Col 2 - Min (00..05...55)
         var t_min : Int = 0;
         
         while (t_min < 60) {
-            
-            
             let minStr : String = String(format: "%02d", t_min);
-            
-            print(minStr);
-            
             minArr.append("\(minStr)");
-            
-            //update for next
-            t_min = t_min + 5;
-        }
-        
-        
-        for i in 1...59 {
-            minArr.append("\(i)");
+            t_min = t_min + 5;                                                  /* update for next                                  */
         }
         
         //Col 3 - Date
@@ -553,26 +551,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     //@todo     header
-    //Jan: 01
-    //Feb: 02
-    func getYear(_ today:String)-> Int {
-        
-        let formatter  = DateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd";
-        let todayDate = formatter.date(from: today);
-        let myCalendar = Calendar(identifier: .gregorian);
-        
-        let month : Int = myCalendar.component(.month, from: todayDate!);
-        let day   : Int = myCalendar.component(.day, from: todayDate!);
-        let year  : Int = myCalendar.component(.year, from: todayDate!);
-        
-        return year;
-    }
-    
-    
-    //@todo     header
-    //Jan: 01
-    //Feb: 02
     func getMonth(_ today:String)-> Int {
         
         let formatter  = DateFormatter();
@@ -581,43 +559,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let myCalendar = Calendar(identifier: .gregorian);
         
         let month : Int = myCalendar.component(.month, from: todayDate!);
-        let day   : Int = myCalendar.component(.day, from: todayDate!);
-        let year  : Int = myCalendar.component(.year, from: todayDate!);
         
         return month;
     }
-    
-
-    //@todo     header
-    //1st: 01
-    //2nd: 02
-    func getDayOfMonth(_ today:String)-> Int {
-        
-        let formatter  = DateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd";
-        let todayDate = formatter.date(from: today);
-        let myCalendar = Calendar(identifier: .gregorian);
-
-        let month : Int = myCalendar.component(.month, from: todayDate!);
-        let day   : Int = myCalendar.component(.day, from: todayDate!);
-        let year  : Int = myCalendar.component(.year, from: todayDate!);
-        
-        return day;
-    }
-    
-    
-    //@todo     header
-    //Su:1
-    //M:2
-    func getDayOfWeek(_ today:String)->Int {
-        let formatter  = DateFormatter();
-        formatter.dateFormat = "yyyy-MM-dd";
-        let todayDate = formatter.date(from: "2018-01-03")!;
-        let myCalendar = NSCalendar(calendarIdentifier: NSCalendar.Identifier.gregorian)!;
-        let myComponents = myCalendar.components(.weekday, from: todayDate);
-        let weekDay = myComponents.weekday;
-        return weekDay!;
-    }
-
 }
 
