@@ -10,18 +10,11 @@
  *
  *  @section    Reference
  *      https://codewithchris.com/uipickerview-example/
- *      https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIDatePicker_Class/index.html#//apple_ref/occ/cl/UIDatePicker
- *      http://sourcefreeze.com/ios-datepicker-tutorial-uidatepicker-using-swift/
- *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      tap response
- *      UIDatePicker example
- *      DateFormatter example
- *      Clean & Push, including all headers
- *
- *  @section    Future Opens
- *      respond to pickerview selections (was having difficulties in previous attempt)
+ *      respond to pickerview selections (having difficulties in previous attempt)
+ *      example for UIDatePicker
+ *      better example for DateFormatter
  *
  *  @section    Components
  *      [1] UIPickerView        (picker)
@@ -119,7 +112,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         addPicker_3col(self.view);
         addPicker_aNote(self.view);
         
-        
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
         return;
@@ -136,25 +128,26 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /********************************************************************************************************************************/
     func addButtons(_ view:UIView) {
         
-        //Get Button Init
+        //Get button Init
         get_button = UIButton(type: UIButtonType.roundedRect);
         get_button.translatesAutoresizingMaskIntoConstraints = true;
         get_button.setTitle("Get", for: UIControlState());
         get_button.sizeToFit();
         get_button.center = CGPoint(x: self.view.center.x-50, y: 625);
         get_button.addTarget(self, action: #selector(ViewController.getPressed(_:)), for:  .touchUpInside);
-        
-        self.view.addSubview(get_button);
-        
-        //Reset Button Init
+
+        //Reset button Init
         rst_button = UIButton(type: UIButtonType.roundedRect);
         rst_button.translatesAutoresizingMaskIntoConstraints = true;
         rst_button.setTitle("Reset", for: UIControlState());
         rst_button.sizeToFit();
         rst_button.center = CGPoint(x: self.view.center.x+50, y: 625);
         rst_button.addTarget(self, action: #selector(ViewController.resetPressed(_:)), for:  .touchUpInside);
-        
+
+        //Add to view
+        self.view.addSubview(get_button);
         self.view.addSubview(rst_button);
+        
         
         print("ViewController.addButtons():        buttons added");
         
@@ -402,7 +395,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
      *  @brief      The data to return for the row and component (column) that's being passed in
      *  @details    called on picker scroll
-     *  @hazard     a bug calls this multiple times per single scroll for large row counts (ex 10_000)
+     *  @hazard     a bug calls this multiple times per single scroll for large row counts (ex. 10_000)
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
