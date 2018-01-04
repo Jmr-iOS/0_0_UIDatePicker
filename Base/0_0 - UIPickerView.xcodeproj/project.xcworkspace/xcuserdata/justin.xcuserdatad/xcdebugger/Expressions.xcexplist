@@ -6,24 +6,32 @@
          contextName = "ViewController.pickerView(_:titleForRow:forComponent:):ViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "minArr[0]">
+               value = "row&amp;minArr.count">
             </PersistentString>
             <PersistentString
                value = "minArr.count">
             </PersistentString>
             <PersistentString
-               value = "row&amp;minArr.count">
+               value = "minArr[0]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ViewController.getDayOfWeek(_:):ViewController.swift">
+         contextName = "ViewController.addNewPicker(_:):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.getPressed(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "picker_3col">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "ViewController.genTestArr():ViewController.swift">
       </ContextState>
       <ContextState
-         contextName = "ViewController.addNewPicker(_:):ViewController.swift">
+         contextName = "ViewController.getDayOfWeek(_:):ViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

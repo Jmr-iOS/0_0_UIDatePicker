@@ -6,7 +6,7 @@
  *
  *  @author     Justin Reina, Firmware Engineer, Jaostech
  *  @created    11/6/16
- *  @last rev   1/3/18
+ *  @last rev   1/4/18
  *
  *  @section    Reference
  *      https://codewithchris.com/uipickerview-example/
@@ -15,20 +15,19 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      Relayout and integrate all 3 in UI
- *      Clean getter for values (all for one button press)
- *      Add todo note for AM/PM swap & toggle, including integration into API
  *      Generate Class Wrapper for ANoteTable & handlles
  *      Close Opens (all headers)
  *      Clean & Push, including all headers
  *  ...
- *  [X] switch to UIPickerView
  *      Layout written implementation steps in header
  *      custom UIPickerView creation example (aNote ref)
  *      grab & reset buttons with resp (buttons & text view)
  *      tap response
  *      UIDatePicker example
  *      DateFormatter example
+ *
+ *  @section    Future Opens
+ *      respond to pickerview selections (was having difficulties in previous attempt)
  *
  *  @section    Components
  *      [1] UIPickerView        (picker)
@@ -48,9 +47,11 @@ import UIKit
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
-    var picker_1col  : UIPickerView!;
-    var picker_3col  : UIPickerView!;
-    var picker_aNote : UIPickerView!;
+    var picker_1col  : UIPickerView;
+    var picker_3col  : UIPickerView;
+    var picker_aNote : UIPickerView;
+    var get_button   : UIButton;
+    var rst_button   : UIButton;
     
     //Init Data
     var pickerData_1col  : [String]!;
@@ -70,7 +71,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var meridArr = [String]();
 
     //Constants
-    let aNote_colWidths : [CGFloat] = [150, 40, 60, 80];
+    let aNote_colWidths  : [CGFloat] = [150, 40, 60, 80];
+    let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
     
     
     /********************************************************************************************************************************/
@@ -86,14 +88,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         picker_3col = UIPickerView();
         picker_aNote = UIPickerView();
         
+        get_button = UIButton();
+        rst_button = UIButton();
+        
         //Hashes
         picker_1col_hash  = picker_1col.hashValue;
         picker_3col_hash  = picker_3col.hashValue;
         picker_aNote_hash = picker_aNote.hashValue;
         
         super.init(nibName: nil, bundle: nil);
-        
-        print("My Custom Init - \(picker_1col.hashValue), \(picker_3col.hashValue), \(picker_aNote.hashValue)");
+
+        print("ViewController.init():              init complete");
         
         return;
     }
@@ -113,15 +118,124 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.translatesAutoresizingMaskIntoConstraints = false;
 
         //Add Pickers
+        addButtons(self.view);
         addPicker_1col(self.view, true);
         addPicker_3col(self.view);
         addPicker_aNote(self.view);
+        
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
         return;
     }
 
+    
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        addButtons(_ view:UIView)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    func addButtons(_ view:UIView) {
+        
+        
+        //Get Button Init
+        get_button = UIButton(type: UIButtonType.roundedRect);
+        get_button.translatesAutoresizingMaskIntoConstraints = true;
+        get_button.setTitle("Get", for: UIControlState());
+        get_button.sizeToFit();
+        get_button.center = CGPoint(x: self.view.center.x-50, y: 625);
+        get_button.addTarget(self, action: #selector(ViewController.getPressed(_:)), for:  .touchUpInside);
+        
+        self.view.addSubview(get_button);
+        
+        //Reset Button Init
+        rst_button = UIButton(type: UIButtonType.roundedRect);
+        rst_button.translatesAutoresizingMaskIntoConstraints = true;
+        rst_button.setTitle("Reset", for: UIControlState());
+        rst_button.sizeToFit();
+        rst_button.center = CGPoint(x: self.view.center.x+50, y: 625);
+        rst_button.addTarget(self, action: #selector(ViewController.resetPressed(_:)), for:  .touchUpInside);
+        
+        self.view.addSubview(rst_button);
+        
+        print("ViewController.addButtons():        buttons added");
+        
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        getPressed(_ sender: UIButton!)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    @objc func getPressed(_ sender: UIButton!) {
+        
+        //Print picker 1
+        let x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
+        
+        print("ViewController.getPressed():        Picker 1 - '\(picker_1col_vals[x])'");
+        
+        
+        //Print picker 3
+        var s : String = "[" + selectedRowValue(picker: picker_3col, ic: 0);
+        for ic in 1...3 {
+            s = s + ", " + selectedRowValue(picker: picker_3col, ic: ic);
+        }
+        s = s + "]";
+
+        print("ViewController.getPressed():        Picker 3 - '\(s)'");
+        
+        
+        //Print aNote picker
+        s = "[" + selectedRowValue(picker: picker_aNote, ic: 0);
+        for ic in 1...3 {
+            s = s + ", " + selectedRowValue(picker: picker_aNote, ic: ic);
+        }
+        s = s + "]";
+        
+        print("ViewController.getPressed():        aNote Picker - '\(s)'");
+        
+        
+        print("ViewController.getPressed():        \(sender.titleLabel!.text!) response complete");
+        
+        return;
+    }
+
+    
+    /********************************************************************************************************************************/
+    /** @fcn        resetPressed(_ sender: UIButton!)
+     *  @brief      x
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
+    @objc func resetPressed(_ sender: UIButton!) {
+        
+        //Picker 1
+        let p1_middle = picker_1col.numberOfRows(inComponent: 0)/2;
+        picker_1col.selectRow(p1_middle, inComponent: 0, animated: true);
+        
+        //Picker 3
+        for i in 0...3 {
+            picker_3col.selectRow(0, inComponent: i, animated: true);
+        }
+        
+        //ANoterPicker
+        picker_aNote.selectRow((10_000/2), inComponent: 0, animated: true);
+        picker_aNote.selectRow((10_000/2), inComponent: 1, animated: true);
+        picker_aNote.selectRow((10_000/2), inComponent: 2, animated: true);
+        picker_aNote.selectRow(1,          inComponent: 3, animated: true);
+        
+        
+        print("ViewController.resetPressed():      \(sender.titleLabel!.text!) response complete");
+        
+        return;
+    }
+    
     
     /********************************************************************************************************************************/
     /** @fcn        addPicker_1col(_ view:UIView)
@@ -142,10 +256,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         //Set size
         picker_1col.frame = CGRect(x: (UIScreen.main.bounds.width/2-100), y: 30,  width: 200, height: 100);
-        
+
         //Set data
-        pickerData_1col = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
-        print(pickerData_1col.count);
+        pickerData_1col = picker_1col_vals;
         
         // Connect data
         picker_1col.delegate   = self;
@@ -159,7 +272,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Add to view
         view.addSubview(picker_1col);
         
-        print("ViewController.addPicker_1col():   picker added");
+        print("ViewController.addPicker_1col():    picker added");
         
         return;
     }
@@ -174,8 +287,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_3col(_ view:UIView) {
         
         //Set size
-        picker_3col.frame = CGRect(x: (UIScreen.main.bounds.width/2-150), y: 85, width: 300, height: 200);
-        
+        picker_3col.frame = CGRect(x: (UIScreen.main.bounds.width/2-150), y: 150, width: 300, height: 150);
+
         //Set data
         pickerData_3col = gen3ColData(true);
         
@@ -186,7 +299,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Add to view
         view.addSubview(picker_3col);
         
-        print("ViewController.addPicker_3col():   picker added");
+        print("ViewController.addPicker_3col():    picker added");
         
         return;
     }
@@ -208,8 +321,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_aNote(_ view:UIView) {
         
         //Set size
-        picker_aNote.frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 250, width: 330, height: 400);
-        
+        picker_aNote.frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
+
         //Set data
         pickerData_aNote = genTestArr();
         
@@ -221,6 +334,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         picker_aNote.selectRow((10_000/2), inComponent: 0, animated: false);
         picker_aNote.selectRow((10_000/2), inComponent: 1, animated: false);
         picker_aNote.selectRow((10_000/2), inComponent: 2, animated: false);
+        picker_aNote.selectRow(1,          inComponent: 3, animated: false);
         
         //Add to view
         view.addSubview(picker_aNote);
@@ -290,7 +404,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         default:
             fatalError();
         }
-        print("1->\(val)");
+
         return val;
     }
   
@@ -319,7 +433,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         default:
             fatalError();
         }
-        print("2->\(val)");
+
         return val;
     }
     
@@ -550,6 +664,20 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let retArr = [dateArr, hourArr, minArr, meridArr];
         
         return retArr;
+    }
+    
+    
+    //@todo     header & comment with example
+    func selectedRowValue(picker : UIPickerView, ic : Int) -> String {
+        
+        //Row Index
+        let ir  = picker.selectedRow(inComponent: ic);
+        
+        //Value
+        let val = self.pickerView(picker,
+                                  titleForRow:  ir,
+                                  forComponent: ic);
+        return val!;
     }
     
     
