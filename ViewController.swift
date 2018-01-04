@@ -16,6 +16,7 @@
  *
  *  @section    Opens
  *      Relayout and integrate all 3 in UI
+ *      Clean getter for values (all for one button press)
  *      Add todo note for AM/PM swap & toggle, including integration into API
  *      Generate Class Wrapper for ANoteTable & handlles
  *      Close Opens (all headers)
@@ -62,6 +63,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     var picker_1col_wraps : Bool!;
     
+    //Data
+    var dateArr  = [String]();
+    var hourArr  = [String]();
+    var minArr   = [String]();
+    var meridArr = [String]();
+
+    //Constants
+    let aNote_colWidths : [CGFloat] = [150, 40, 60, 80];
+    
     
     /********************************************************************************************************************************/
     /** @fcn        init()
@@ -103,8 +113,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.translatesAutoresizingMaskIntoConstraints = false;
 
         //Add Pickers
-        //addPicker_1col(self.view, true);
-        //addPicker_3col(self.view);
+        addPicker_1col(self.view, true);
+        addPicker_3col(self.view);
         addPicker_aNote(self.view);
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
@@ -131,7 +141,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         picker_1col_wraps = wraps;
         
         //Set size
-        picker_1col.frame = CGRect(x: 50, y: 75,  width: 200, height: 200);
+        picker_1col.frame = CGRect(x: (UIScreen.main.bounds.width/2-100), y: 30,  width: 200, height: 100);
         
         //Set data
         pickerData_1col = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
@@ -164,16 +174,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_3col(_ view:UIView) {
         
         //Set size
-        picker_3col.frame = CGRect(x: 50, y: 90, width: 200, height: 400);
+        picker_3col.frame = CGRect(x: (UIScreen.main.bounds.width/2-150), y: 85, width: 300, height: 200);
         
         //Set data
         pickerData_3col = gen3ColData(true);
-        
-        print(pickerData_3col.count);
-        print(pickerData_3col[0].count);
-
-        print(pickerData_3col[0][0]);       											/* cols go horiz, rows go vert [R][C]		*/
-        //!print(pickerData_3col[4][0]);
         
         // Connect data
         picker_3col.delegate   = self;
@@ -194,8 +198,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      *  @details    x
      *
      *  @section    Fields
-     *      "Today        11    15    AM"       R: <365, 24, 2>
-     *      "Thu Jan 4    11    15    AM"       C: 3
+     *      "Today        11    15    AM"
+     *      "Thu Jan 4    11    15    AM"
      *
      *  @section    Opens
      *      scroll to today
@@ -204,16 +208,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     func addPicker_aNote(_ view:UIView) {
         
         //Set size
-        picker_aNote.frame = CGRect(x: 0, y: 70, width: 330, height: 400);
+        picker_aNote.frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 250, width: 330, height: 400);
         
         //Set data
         pickerData_aNote = genTestArr();
-        
-        print(pickerData_aNote.count);
-        print(pickerData_aNote[0].count);
-        
-        print(pickerData_aNote[0][0]);                                                 /* cols go horiz, rows go vert [R][C]        */
-        //!print(pickerData_aNote[4][0]);
         
         // Connect data
         picker_aNote.delegate   = self;
@@ -378,7 +376,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         return val;
     }
     
-    let colWidths : [CGFloat] = [150, 40, 60, 80];
+
     /********************************************************************************************************************************/
     /** @fcn        pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat
      *  @brief      return the columns width
@@ -386,7 +384,16 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return colWidths[component];
+        switch(pickerView.hashValue) {
+            case picker_1col_hash:
+                return 150;
+            case picker_3col_hash:
+                return 50;
+            case picker_aNote_hash:
+                return aNote_colWidths[component];
+            default:
+                fatalError("unexpected hash value, aborting");
+        }
     }
 
 //<PREV>
@@ -477,12 +484,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented");
     }
-    
-    
-    var dateArr  = [String]();
-    var hourArr  = [String]();
-    var minArr   = [String]();
-    var meridArr = [String]();
 
     
     /********************************************************************************************************************************/
