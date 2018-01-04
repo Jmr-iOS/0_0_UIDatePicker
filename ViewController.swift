@@ -18,6 +18,7 @@
  *      close Opens (all headers)
  *      move ANotePickerView to lib
  *      move ViewController.selectedRowValue to lib
+ *      move Dimension enum to lib
  *      tap response
  *      UIDatePicker example
  *      DateFormatter example

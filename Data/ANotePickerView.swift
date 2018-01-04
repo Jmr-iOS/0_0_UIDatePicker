@@ -8,7 +8,6 @@
  *
  *  @section    Opens
  *      rename and store 'genTestArr()'
- *      inherit from UIPickerView and use directly if possible
  *
  *  @section    Legal Disclaimer
  *      All contents of this source file and/or any other Jaostech related source files are the explicit property on Jaostech
@@ -51,7 +50,7 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         self.frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
         
         //Set data
-        pickerData_aNote = genTestArr();
+        pickerData_aNote = genTableData();
         
         // Connect data
         delegate   = self;
@@ -143,7 +142,7 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         
     
     /********************************************************************************************************************************/
-    /** @fcn        genTestArr()
+    /** @fcn        genTableData()
      *  @brief      generate the aNote data structure
      *  @details    x
      *
@@ -157,14 +156,8 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
      *      responds to scrolls with value updates (e.g. when 59->0, increment the hour)
      */
     /********************************************************************************************************************************/
-    func genTestArr() -> [[String]] {
+    func genTableData() -> [[String]] {
         
-        //@open     year is selectable?
-        //Col 0 - Date
-        //Mon Jan 1
-        //Tue Jan 2
-        //Today
-        //Sun Jan 7
         for day in 1...365 {
             
             //gen date string
@@ -198,7 +191,7 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         while (t_min < 60) {
             let minStr : String = String(format: "%02d", t_min);
             minArr.append("\(minStr)");
-            t_min = t_min + 5;                                                  /* update for next                                  */
+            t_min = t_min + 5;                                                  /* update for next row                              */
         }
         
         //Col 3 - Date
@@ -232,30 +225,44 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     
-    //@todo     header & store
+    /********************************************************************************************************************************/
+    /** @fcn        Dimension
+     *  @brief      table dimension
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
     enum Dimension {
         case cols;
         case rows;
     }
     
     
-    //@todo     header
+    /********************************************************************************************************************************/
+    /** @fcn        getCount(_ dim : ANotePickerView.Dimension) -> Int
+     *  @brief      get requested dimension
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
     func getCount(_ dim : ANotePickerView.Dimension) -> Int {
         
         switch(dim) {
             case .cols:
-                return self.genTestArr().count;             /* @todo    !!!                                                         */
+                return self.genTableData().count;
             case .rows:
-                return self.genTestArr()[0].count;          /* @todo    !!!                                                         */
+                return self.genTableData()[0].count;
         }
     }
     
     
-    //@todo     header
+    /********************************************************************************************************************************/
+    /** @fcn        getValue(ic : Int) -> String
+     *  @brief      get value of selected column
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
     func getValue(ic : Int) -> String {
         
         var val : String;
-    
         let row : Int = selectedRow(inComponent: ic);
         
         switch(ic) {
@@ -279,7 +286,12 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
         return val;
     }
     
-    //@todo     header
+    /********************************************************************************************************************************/
+    /** @fcn        resetPressed()
+     *  @brief      reset fields
+     *  @details    x
+     */
+    /********************************************************************************************************************************/
     func resetPressed() {
         selectRow((10_000/2), inComponent: 0, animated: true);
         selectRow((10_000/2), inComponent: 1, animated: true);
