@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		D031BD641FFD826600234DC4 /* ANotePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ANotePicker.swift; path = ../Data/ANotePicker.swift; sourceTree = "<group>"; };
-		D039B4B61BF4D7950024005F /* 0_0 - UIDatePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIDatePicker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIPickerView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09519131FFC2AB7006E8F9A /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		D09519141FFC2AB7006E8F9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D09519151FFC2AB8006E8F9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		D039B4B71BF4D7950024005F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D039B4B61BF4D7950024005F /* 0_0 - UIDatePicker.app */,
+				D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,9 +84,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D039B4B51BF4D7950024005F /* 0_0 - UIDatePicker */ = {
+		D039B4B51BF4D7950024005F /* 0_0 - UIPickerView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D039B4C81BF4D7950024005F /* Build configuration list for PBXNativeTarget "0_0 - UIDatePicker" */;
+			buildConfigurationList = D039B4C81BF4D7950024005F /* Build configuration list for PBXNativeTarget "0_0 - UIPickerView" */;
 			buildPhases = (
 				D039B4B21BF4D7950024005F /* Sources */,
 				D039B4B31BF4D7950024005F /* Frameworks */,
@@ -96,9 +96,9 @@
 			);
 			dependencies = (
 			);
-			name = "0_0 - UIDatePicker";
+			name = "0_0 - UIPickerView";
 			productName = "0_0 - UIDatePicker";
-			productReference = D039B4B61BF4D7950024005F /* 0_0 - UIDatePicker.app */;
+			productReference = D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -118,7 +118,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D039B4B11BF4D7950024005F /* Build configuration list for PBXProject "0_0 - UIDatePicker" */;
+			buildConfigurationList = D039B4B11BF4D7950024005F /* Build configuration list for PBXProject "0_0 - UIPickerView" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -131,7 +131,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D039B4B51BF4D7950024005F /* 0_0 - UIDatePicker */,
+				D039B4B51BF4D7950024005F /* 0_0 - UIPickerView */,
 			);
 		};
 /* End PBXProject section */
@@ -272,7 +272,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIDatePicker";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIPickerView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -288,7 +288,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIDatePicker";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.jaostech.--0---UIPickerView";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 			};
@@ -297,7 +297,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D039B4B11BF4D7950024005F /* Build configuration list for PBXProject "0_0 - UIDatePicker" */ = {
+		D039B4B11BF4D7950024005F /* Build configuration list for PBXProject "0_0 - UIPickerView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D039B4C61BF4D7950024005F /* Debug */,
@@ -306,7 +306,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D039B4C81BF4D7950024005F /* Build configuration list for PBXNativeTarget "0_0 - UIDatePicker" */ = {
+		D039B4C81BF4D7950024005F /* Build configuration list for PBXNativeTarget "0_0 - UIPickerView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D039B4C91BF4D7950024005F /* Debug */,

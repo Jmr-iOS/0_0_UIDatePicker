@@ -1,13 +1,8 @@
 /************************************************************************************************************************************/
 /** @file       ANotePicker.swift
- *  @project    x
+ *  @project    0_0 - UIPickerView
  *  @brief      x
  *  @details    x
- *
- *  @author     Justin Reina, Firmware Engineer, Jaostech
- *  @created    1/3/18
- *  @last rev   1/3/18
- *
  *
  *  @notes      x
  *
@@ -21,47 +16,13 @@
 /************************************************************************************************************************************/
 import UIKit
 
-//@note     global vars
-
 
 class ANotePicker : NSObject {
-    
-    //@note     class vars
     
     /********************************************************************************************************************************/
     /** @fcn        init()
      *  @brief      x
      *  @details    x
-     *
-     *  @section    Purpose
-     *      x
-     *
-     *  @param      [in]  name    descrip
-     *
-     *  @param      [out] name    descrip
-     *
-     *  @return     (type) descrip
-     *
-     *  @pre        x
-     *
-     *  @post       x
-     *
-     *  @section    Operation
-     *      x
-     *
-     *  @section    Opens
-     *      x
-     *
-     *  @section    Hazards & Risks
-     *      x
-     *
-     * @section    Todo
-     *     x
-     *
-     * @section    Timing
-     *     x
-     *
-     *  @note       x
      */
     /********************************************************************************************************************************/
     override init() {

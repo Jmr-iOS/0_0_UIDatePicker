@@ -34,9 +34,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D039B4B51BF4D7950024005F"
-            BuildableName = "0_0 - UIDatePicker.app"
-            BlueprintName = "0_0 - UIDatePicker"
-            ReferencedContainer = "container:0_0 - UIDatePicker.xcodeproj">
+            BuildableName = "0_0 - UIPickerView.app"
+            BlueprintName = "0_0 - UIPickerView"
+            ReferencedContainer = "container:0_0 - UIPickerView.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,9 +58,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D039B4B51BF4D7950024005F"
-            BuildableName = "0_0 - UIDatePicker.app"
-            BlueprintName = "0_0 - UIDatePicker"
-            ReferencedContainer = "container:0_0 - UIDatePicker.xcodeproj">
+            BuildableName = "0_0 - UIPickerView.app"
+            BlueprintName = "0_0 - UIPickerView"
+            ReferencedContainer = "container:0_0 - UIPickerView.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>

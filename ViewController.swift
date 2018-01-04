@@ -15,6 +15,12 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
+ *      Relayout and integrate all 3 in UI
+ *      Add todo note for AM/PM swap & toggle, including integration into API
+ *      Generate Class Wrapper for ANoteTable & handlles
+ *      Close Opens (all headers)
+ *      Clean & Push, including all headers
+ *  ...
  *  [X] switch to UIPickerView
  *      Layout written implementation steps in header
  *      custom UIPickerView creation example (aNote ref)
@@ -100,10 +106,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //addPicker_1col(self.view, true);
         //addPicker_3col(self.view);
         addPicker_aNote(self.view);
-        
-//        genTestArr();
-//        getDayOfMonth("2018-01-03");
-//        getDayOfMonth("2018-04-13");
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
