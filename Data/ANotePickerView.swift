@@ -7,7 +7,7 @@
  *  @notes      data is private to enforce api access
  *
  *  @section    Opens
- *      rename and store 'genTestArr()'
+ *      handle hour and minute changes, updating meridian (bug to mitigate)
  *
  *  @section    Legal Disclaimer
  *      All contents of this source file and/or any other Jaostech related source files are the explicit property on Jaostech
@@ -102,6 +102,7 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
     /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
      *  @brief      The data to return for the row and component (column) that's being passed in
      *  @details    called on picker scroll
+     *  @hazard     a bug calls this multiple times per single scroll for large row counts (ex 10_000)
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -149,11 +150,6 @@ class ANotePickerView : UIPickerView, UIPickerViewDelegate, UIPickerViewDataSour
      *  @section    Fields
      *      "Today        11    15    AM"       R: <365, 24, 2>
      *      "Thu Jan 4    11    15    AM"       C: 3
-     *
-     *  @section    Opens
-     *      move to class var
-     *      fields 0-2 loop
-     *      responds to scrolls with value updates (e.g. when 59->0, increment the hour)
      */
     /********************************************************************************************************************************/
     func genTableData() -> [[String]] {

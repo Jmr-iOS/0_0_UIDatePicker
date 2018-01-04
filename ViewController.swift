@@ -15,7 +15,6 @@
  *      http://www.brianjcoleman.com/tutorial-nsdate-in-swift/
  *
  *  @section    Opens
- *      close Opens (all headers)
  *      move ANotePickerView to lib
  *      move ViewController.selectedRowValue to lib
  *      move Dimension enum to lib
@@ -406,6 +405,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
      *  @brief      The data to return for the row and component (column) that's being passed in
      *  @details    called on picker scroll
+     *  @hazard     a bug calls this multiple times per single scroll for large row counts (ex 10_000)
      */
     /********************************************************************************************************************************/
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
