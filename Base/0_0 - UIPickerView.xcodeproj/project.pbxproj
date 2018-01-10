@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D04199BA1FFEC0C600CFCDE3 /* ANotePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */; };
 		D04199BC1FFEC29400CFCDE3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04199BB1FFEC29400CFCDE3 /* Utils.swift */; };
 		D09519161FFC2AB8006E8F9A /* Base.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D09519131FFC2AB7006E8F9A /* Base.lproj */; };
 		D09519181FFC2AB8006E8F9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09519151FFC2AB8006E8F9A /* Assets.xcassets */; };
@@ -16,11 +15,11 @@
 		D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */; };
 		D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095191F1FFC2B0E006E8F9A /* ViewController.swift */; };
 		D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09519201FFC2B0E006E8F9A /* AppDelegate.swift */; };
+		D0F56B2A2006713C003DD327 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F56B292006713C003DD327 /* CustomPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D039B4B61BF4D7950024005F /* 0_0 - UIPickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "0_0 - UIPickerView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ANotePickerView.swift; path = "../../../../../Ref/Libraries/Programmatic UI/ANotePickerView.swift"; sourceTree = "<group>"; };
 		D04199BB1FFEC29400CFCDE3 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = "../../../../../Ref/Libraries/Programmatic UI/Utils.swift"; sourceTree = "<group>"; };
 		D09519131FFC2AB7006E8F9A /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 		D09519141FFC2AB7006E8F9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -30,6 +29,7 @@
 		D095191B1FFC2AE0006E8F9A /* Stdcomments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stdcomments.swift; path = ../../../../../Ref/iOS/Base/Stdcomments.swift; sourceTree = "<group>"; };
 		D095191F1FFC2B0E006E8F9A /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../ViewController.swift; sourceTree = "<group>"; };
 		D09519201FFC2B0E006E8F9A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../AppDelegate.swift; sourceTree = "<group>"; };
+		D0F56B292006713C003DD327 /* CustomPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPickerView.swift; path = "../../../../../Ref/Libraries/Programmatic UI/CustomPickerView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,7 @@
 		D031BD661FFD826B00234DC4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				D04199B91FFEC0C600CFCDE3 /* ANotePickerView.swift */,
+				D0F56B292006713C003DD327 /* CustomPickerView.swift */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 				D09519221FFC2B0E006E8F9A /* AppDelegate.swift in Sources */,
 				D09519211FFC2B0E006E8F9A /* ViewController.swift in Sources */,
 				D095191D1FFC2AE0006E8F9A /* NewClass.swift in Sources */,
-				D04199BA1FFEC0C600CFCDE3 /* ANotePickerView.swift in Sources */,
+				D0F56B2A2006713C003DD327 /* CustomPickerView.swift in Sources */,
 				D095191E1FFC2AE0006E8F9A /* Stdcomments.swift in Sources */,
 				D04199BC1FFEC29400CFCDE3 /* Utils.swift in Sources */,
 			);

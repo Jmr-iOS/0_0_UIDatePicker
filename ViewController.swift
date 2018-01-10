@@ -6,12 +6,16 @@
  *
  *  @author     Justin Reina, Firmware Engineer, Jaostech
  *  @created    11/6/16
- *  @last rev   1/6/18
+ *  @last rev   1/10/18
  *
  *  @section    Reference
  *      https://codewithchris.com/uipickerview-example/
  *
  *  @section    Opens
+ *      implement correct ANotePicker with example
+ *          make mode swap supported
+ *      make 'CustomPicker' functional & complete
+ *      'Get' and  'Reset' functional
  *      respond to pickerview selections (having difficulties in previous attempt)
  *
  *  @section    Components
@@ -41,8 +45,9 @@
 /************************************************************************************************************************************/
 import UIKit
 
-//Display Modes
+//Display Modes for Slot 3 selection
 enum Mode {
+    case MODE_CUST;                                         /* display the custom picker                                            */
     case MODE_ANOTE;                                        /* display the aNote picker                                             */
     case MODE_DATE;                                         /* display the UIDatePicker                                             */
 }
@@ -51,12 +56,12 @@ enum Mode {
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
-    var picker_1col  : UIPickerView;
-    var picker_3col  : UIPickerView;
-    var picker_aNote : ANotePickerView!;
-    var picker_date  : UIDatePicker!;
-    var get_button   : UIButton;
-    var rst_button   : UIButton;
+    var picker_1col : UIPickerView;
+    var picker_3col : UIPickerView;
+    var picker_cust : CustomPickerView!;
+    var picker_date : UIDatePicker!;
+    var get_button  : UIButton;
+    var rst_button  : UIButton;
     
     //Init Data
     var pickerData_1col : [String]!;
@@ -124,6 +129,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             case .MODE_DATE:
                 addPicker_Date(self.view);
                 break;
+        case .MODE_CUST:
+            fatalError("mode not yet supported");
         }
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
@@ -251,12 +258,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /********************************************************************************************************************************/
     func addPicker_aNote(_ view:UIView) {
 
-        picker_aNote = ANotePickerView();
+        picker_cust  = CustomPickerView();
         
         //Set color
-        picker_aNote.backgroundColor = UIColor.gray;
+        picker_cust .backgroundColor = UIColor.gray;
         
-        view.addSubview(picker_aNote);
+        view.addSubview(picker_cust );
         
         print("ViewController.addPicker_aNote()    picker added");
         
@@ -362,7 +369,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         
         //Print aNote picker
-        s = picker_aNote.getAsString();
+        s = picker_cust .getAsString();
         
         print("ViewController.getPressed():        aNote Picker - '\(s)'");
         
@@ -391,7 +398,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         }
         
         //ANoterPicker
-        picker_aNote.resetPressed();
+        picker_cust .resetPressed();
         
         
         print("ViewController.resetPressed():      \(sender.titleLabel!.text!) response complete");
