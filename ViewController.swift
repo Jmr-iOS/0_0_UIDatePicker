@@ -56,12 +56,13 @@ enum Mode {
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     //UI
-    var picker_1col : UIPickerView;
-    var picker_3col : UIPickerView;
-    var picker_cust : CustomPickerView!;
-    var picker_date : UIDatePicker!;
-    var get_button  : UIButton;
-    var rst_button  : UIButton;
+    var picker_1col  : UIPickerView;                        /* Slot 1                                                               */
+    var picker_3col  : UIPickerView;                        /* Slot 2                                                               */
+    var picker_anote : UIDatePicker!;                       /* Slot 3a                                                               */
+    var picker_cust  : CustomPickerView!;                   /* Slot 3b                                                               */
+    var picker_date  : UIDatePicker!;                       /* Slot 3c                                                               */
+    var get_button   : UIButton;
+    var rst_button   : UIButton;
     
     //Init Data
     var pickerData_1col : [String]!;
@@ -73,7 +74,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var picker_1col_wraps : Bool!;
 
     //Constants
-    let mode : Mode = .MODE_DATE;
+    let mode : Mode = .MODE_ANOTE;                          /* select mode for Slot 3 (a/b/c)                                       */
     let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
 
     
@@ -127,10 +128,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 addPicker_aNote(self.view);
                 break;
             case .MODE_DATE:
-                addPicker_Date(self.view);
+                addPicker_date(self.view);
                 break;
         case .MODE_CUST:
-            fatalError("mode not yet supported");
+            addPicker_cust(self.view);
+            break;
         }
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
@@ -251,19 +253,43 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     /********************************************************************************************************************************/
-    /** @fcn        addPicker_aNote(_ view:UIView)
-     *  @brief      display the ANotePickerView example
-     *  @details    called when in MODE_ANOTE,
+    /** @fcn        addPicker_cust(_ view:UIView)
+     *  @brief      display the CustomPickerView example
+     *  @details    called when in MODE_CUST
      */
     /********************************************************************************************************************************/
-    func addPicker_aNote(_ view:UIView) {
+    func addPicker_cust(_ view:UIView) {
 
         picker_cust  = CustomPickerView();
         
         //Set color
         picker_cust .backgroundColor = UIColor.gray;
         
-        view.addSubview(picker_cust );
+        view.addSubview(picker_cust);
+        
+        print("ViewController.addPicker_cust()    picker added");
+        
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        addPicker_aNote(_ view:UIView)
+     *  @brief      display the CustomPickerView example
+     *  @details    called when in MODE_CUST
+     */
+    /********************************************************************************************************************************/
+    func addPicker_aNote(_ view:UIView) {
+        
+        //State
+        let frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
+        
+        picker_date = UIDatePicker(frame: frame);
+        
+        //Set color
+        picker_date.backgroundColor = UIColor.gray;
+        
+        view.addSubview(picker_date);
         
         print("ViewController.addPicker_aNote()    picker added");
         
@@ -272,7 +298,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     
     /********************************************************************************************************************************/
-    /** @fcn        addPicker_Date(_ view:UIView)
+    /** @fcn        addPicker_date(_ view:UIView)
      *  @brief      display the DatePicker example
      *  @details    called when in MODE_DATE
      *
@@ -287,7 +313,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      *
      */
     /********************************************************************************************************************************/
-    func addPicker_Date(_ view:UIView) {
+    func addPicker_date(_ view:UIView) {
 
         let dateFrame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
         let comp = DateComponents(year: 1995, month: 11, day: 10, hour: 1, minute: 2);
