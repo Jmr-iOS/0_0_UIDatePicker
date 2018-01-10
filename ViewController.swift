@@ -12,11 +12,7 @@
  *      https://codewithchris.com/uipickerview-example/
  *
  *  @section    Opens
- *      implement correct ANotePicker with example
- *          make mode swap supported
- *      make 'CustomPicker' functional & complete
- *      'Get' and  'Reset' functional
- *      respond to pickerview selections (having difficulties in previous attempt)
+ *      none listed
  *
  *  @section    Components
  *      [1] UIPickerView        (picker)
@@ -48,9 +44,12 @@ import UIKit
 //Display Modes for Slot 3 selection
 enum Mode {
     case MODE_CUST;                                         /* display the custom picker                                            */
-    case MODE_ANOTE;                                        /* display the aNote picker                                             */
     case MODE_DATE;                                         /* display the UIDatePicker                                             */
+    case MODE_ANOTE;                                        /* display the aNote picker                                             */
 }
+
+//Demo Mode
+let mode : Mode = .MODE_ANOTE;                              /* select mode for Slot 3 (a/b/c)                                       */
 
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -58,9 +57,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     //UI
     var picker_1col  : UIPickerView;                        /* Slot 1                                                               */
     var picker_3col  : UIPickerView;                        /* Slot 2                                                               */
-    var picker_anote : UIDatePicker!;                       /* Slot 3a                                                               */
-    var picker_cust  : CustomPickerView!;                   /* Slot 3b                                                               */
-    var picker_date  : UIDatePicker!;                       /* Slot 3c                                                               */
+    var picker_cust  : CustomPickerView!;                   /* Slot 3a                                                              */
+    var picker_date  : UIDatePicker!;                       /* Slot 3b                                                              */
+    var picker_anote : UIDatePicker!;                       /* Slot 3c                                                              */
     var get_button   : UIButton;
     var rst_button   : UIButton;
     
@@ -74,7 +73,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     var picker_1col_wraps : Bool!;
 
     //Constants
-    let mode : Mode = .MODE_ANOTE;                          /* select mode for Slot 3 (a/b/c)                                       */
     let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
 
     
@@ -118,29 +116,27 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.backgroundColor = UIColor.white;
         view.translatesAutoresizingMaskIntoConstraints = false;
 
-        //Add Pickers
+        //Init UI
         addButtons(self.view);
         addPicker_1col(self.view, true);
         addPicker_3col(self.view);
         
         switch(mode) {
-            case .MODE_ANOTE:
-                addPicker_aNote(self.view);
+            case .MODE_CUST:
+                addPicker_cust(self.view);
                 break;
             case .MODE_DATE:
                 addPicker_date(self.view);
                 break;
-        case .MODE_CUST:
-            addPicker_cust(self.view);
-            break;
+            case .MODE_ANOTE:
+                addPicker_aNote(self.view);
+                break;
         }
         
         print("ViewController.viewDidLoad():       viewDidLoad() complete");
         
         return;
     }
-
-    
     
     
     /********************************************************************************************************************************/
@@ -267,31 +263,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         view.addSubview(picker_cust);
         
-        print("ViewController.addPicker_cust()    picker added");
-        
-        return;
-    }
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        addPicker_aNote(_ view:UIView)
-     *  @brief      display the CustomPickerView example
-     *  @details    called when in MODE_CUST
-     */
-    /********************************************************************************************************************************/
-    func addPicker_aNote(_ view:UIView) {
-        
-        //State
-        let frame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
-        
-        picker_date = UIDatePicker(frame: frame);
-        
-        //Set color
-        picker_date.backgroundColor = UIColor.gray;
-        
-        view.addSubview(picker_date);
-        
-        print("ViewController.addPicker_aNote()    picker added");
+        print("ViewController.addPicker_cust()     picker added");
         
         return;
     }
@@ -301,6 +273,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /** @fcn        addPicker_date(_ view:UIView)
      *  @brief      display the DatePicker example
      *  @details    called when in MODE_DATE
+     *  @note       picker.setDate(Date(), animated: true) -> for current date
      *
      *  @section    Modes
      *      Month Day Year
@@ -326,11 +299,36 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         view.addSubview(picker_date);
         
         //Print the date
-        let dateFormatter1 = DateFormatter();
-        dateFormatter1.dateStyle = .medium;
-        dateFormatter1.timeStyle = .none;
-        print("ViewController.addPicker_Date()     date: \(dateFormatter1.string(from: picker_date.date))");
+        let dateFormatter = getStandardFormatter();
+        print("ViewController.addPicker_date()     date: \(dateFormatter.string(from: picker_date.date))");
         
+        return;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        addPicker_aNote(_ view:UIView)
+     *  @brief      display the CustomPickerView example
+     *  @details    called when in MODE_CUST
+     *  @note       picker.setDate(Date(), animated: true) -> for current date
+     */
+    /********************************************************************************************************************************/
+    func addPicker_aNote(_ view:UIView) {
+
+        let dateFrame = CGRect(x: (UIScreen.main.bounds.width/2-165), y: 300, width: 330, height: 300);
+        let comp = DateComponents(year: 2020, month: 4, day: 23, hour: 11, minute: 25);
+         
+        picker_anote = UIDatePicker(frame: dateFrame);
+        picker_anote.datePickerMode = UIDatePickerMode.dateAndTime;
+        picker_anote.date = Calendar.current.date(from: comp)!;
+        picker_anote.backgroundColor = UIColor.gray;
+
+        view.addSubview(picker_anote);
+         
+        //Print the date
+        let dateFormatter = getStandardFormatter();
+        print("ViewController.addPicker_aNote()    date: \(dateFormatter.string(from: picker_anote.date))");
+ 
         return;
     }
     
@@ -374,33 +372,58 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /** @fcn        getPressed(_ sender: UIButton!)
      *  @brief      x
      *  @details    x
+     *
+     *  @section    Reference
+     *      http://nsdateformatter.com/ - gives excellent trial of formatting options
      */
     /********************************************************************************************************************************/
     @objc func getPressed(_ sender: UIButton!) {
         
-        //Print picker 1
-        let x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
+        //Vars
+        var s, name : String;
+        let x : Int;
         
-        print("ViewController.getPressed():        Picker 1 - '\(picker_1col_vals[x])'");
+        //Print A (picker_1)
+        x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
+        print("ViewController.getPressed():        (A) Picker 1 - '\(picker_1col_vals[x])'");
         
         
-        //Print picker 3
-        var s : String = "[" + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
+        //Print B (picker_3)
+        s = "[" + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
         for ic in 1...3 {
             s = s + ", " + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: ic);
         }
         s = s + "]";
         
-        print("ViewController.getPressed():        Picker 3 - '\(s)'");
+        print("ViewController.getPressed():        (B) Picker 3 - '\(s)'");
         
         
-        //Print aNote picker
-        s = picker_cust .getAsString();
+        //Print C (picker_cust/date/anote)
+        switch(mode) {
+            case .MODE_CUST:
+                s = picker_cust.getAsString();
+                name = "Custom";
+                break;
+        case .MODE_DATE:
+            let dateFormatter = getStandardFormatter();
+            s = dateFormatter.string(from: picker_date.date);
+            name = "Date";
+            break;
+        case .MODE_ANOTE:
+            let dateFormatter = getStandardFormatter();
+            //XYZ
+            dateFormatter.dateFormat = "EEE MMM dd h mm a";
+            s = dateFormatter.string(from: picker_anote.date);
+            print(picker_anote.date);
+            //Get "Date, Hour, Minute, Meridian"
+            
+            
+            name = "ANote";
+        }
         
-        print("ViewController.getPressed():        aNote Picker - '\(s)'");
+        print("ViewController.getPressed():        (C) \(name) Picker - '\(s)'");
         
-        
-        print("ViewController.getPressed():        \(sender.titleLabel!.text!) response complete");
+        print("ViewController.getPressed():        '\(sender.titleLabel!.text!)' response complete");
         
         return;
     }
@@ -414,20 +437,28 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /********************************************************************************************************************************/
     @objc func resetPressed(_ sender: UIButton!) {
         
-        //Picker 1
+        //Picker A
         let p1_middle = picker_1col.numberOfRows(inComponent: 0)/2;
         picker_1col.selectRow(p1_middle, inComponent: 0, animated: true);
         
-        //Picker 3
-        for i in 0...3 {
+        //Picker B
+        for i in 0...(picker_3col.numberOfComponents-1) {
             picker_3col.selectRow(0, inComponent: i, animated: true);
         }
         
-        //ANoterPicker
-        picker_cust .resetPressed();
+        //Print C (picker_cust/date/anote)
+        switch(mode) {
+        case .MODE_CUST:
+            picker_cust.resetPressed();
+            break;
+        case .MODE_DATE:
+            picker_date.setDate(Date(), animated: true);
+        case .MODE_ANOTE:
+            picker_anote.setDate(Date(), animated: true);
+        }
         
         
-        print("ViewController.resetPressed():      \(sender.titleLabel!.text!) response complete");
+        print("ViewController.resetPressed():      '\(sender.titleLabel!.text!)' response complete");
         
         return;
     }
@@ -576,9 +607,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      *  @details    for reference
      */
     /********************************************************************************************************************************/
-    class func getMonth(_ today:String)-> Int {
+    func getMonth(_ today:String)-> Int {
         
-        let formatter  = DateFormatter();
+        let formatter = getStandardFormatter();
         formatter.dateFormat = "yyyy-MM-dd";
         let todayDate = formatter.date(from: today);
         let myCalendar = Calendar(identifier: .gregorian);
@@ -586,6 +617,27 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let month : Int = myCalendar.component(.month, from: todayDate!);
         
         return month;
+    }
+    
+    
+    /********************************************************************************************************************************/
+    /** @fcn        getStandardFormatter() -> DateFormatter
+     *  @brief      get the standard date formatter for use
+     *  @details    code snippet repeated often, encapsulated for cleanliness
+     */
+    /********************************************************************************************************************************/
+    func getStandardFormatter() -> DateFormatter {
+        
+        let dateFormatter = DateFormatter();
+        
+        dateFormatter.locale = Locale(identifier: "en_US");
+        dateFormatter.timeZone = TimeZone(identifier: "PST");
+        dateFormatter.dateStyle = .medium;
+        dateFormatter.timeStyle = .none;
+        dateFormatter.amSymbol = "AM";
+        dateFormatter.pmSymbol = "PM";
+        
+        return dateFormatter;
     }
 }
 
