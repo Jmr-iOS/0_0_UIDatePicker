@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.makeKeyAndVisible();
         
-        print("AppDelegate.application():          application launch complete");
+        if(verbose) { print("AppDelegate.application():          application launch complete"); }
         
         return true;
     }

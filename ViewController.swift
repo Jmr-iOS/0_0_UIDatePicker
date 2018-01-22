@@ -51,29 +51,34 @@ enum Mode {
 //Demo Mode
 let mode : Mode = .MODE_ANOTE;                              /* select mode for Slot 3 (a/b/c)                                       */
 
+//Config
+let verbose : Bool = true;
 
-class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+//UI
+var picker_1col  : UIPickerView!;                           /* Slot 1                                                               */
+var picker_3col  : UIPickerView!;                           /* Slot 2                                                               */
+var picker_cust  : CustomPickerView!;                       /* Slot 3a                                                              */
+var picker_date  : UIDatePicker!;                           /* Slot 3b                                                              */
+var picker_anote : UIDatePicker!;                           /* Slot 3c                                                              */
 
+var pickerHandler : PickerHandler!;
+
+//Data
+var pickerData_1col   : [String]!;
+var pickerData_3col   : [[String]]!;
+var picker_1col_hash  : Int!;
+var picker_3col_hash  : Int!;
+var picker_1col_wraps : Bool!;
+
+//Constants
+let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
+
+
+class ViewController: UIViewController {
+    
     //UI
-    var picker_1col  : UIPickerView;                        /* Slot 1                                                               */
-    var picker_3col  : UIPickerView;                        /* Slot 2                                                               */
-    var picker_cust  : CustomPickerView!;                   /* Slot 3a                                                              */
-    var picker_date  : UIDatePicker!;                       /* Slot 3b                                                              */
-    var picker_anote : UIDatePicker!;                       /* Slot 3c                                                              */
     var get_button   : UIButton;
     var rst_button   : UIButton;
-    
-    //Init Data
-    var pickerData_1col : [String]!;
-    var pickerData_3col : [[String]]!;
-    
-    let picker_1col_hash  : Int;
-    let picker_3col_hash  : Int;
-    
-    var picker_1col_wraps : Bool!;
-
-    //Constants
-    let picker_1col_vals : [String]  = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"];
 
     
     /********************************************************************************************************************************/
@@ -83,6 +88,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
      */
     /********************************************************************************************************************************/
     init() {
+        
+        pickerHandler = PickerHandler();
         
         //Init UI
         picker_1col = UIPickerView();
@@ -96,8 +103,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         picker_3col_hash  = picker_3col.hashValue;
         
         super.init(nibName: nil, bundle: nil);
-
-        print("ViewController.init():              init complete");
+        
+        if(verbose) { print("ViewController.init():              init complete"); }
         
         return;
     }
@@ -133,11 +140,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 break;
         }
         
-        print("ViewController.viewDidLoad():       viewDidLoad() complete");
+        if(verbose) { print("ViewController.viewDidLoad():       viewDidLoad() complete"); }
         
         return;
     }
-    
+
     
     /********************************************************************************************************************************/
     /** @fcn        addButtons(_ view:UIView)
@@ -168,7 +175,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.view.addSubview(rst_button);
         
         
-        print("ViewController.addButtons():        buttons added");
+        if(verbose) { print("ViewController.addButtons():        buttons added"); }
         
         return;
     }
@@ -201,8 +208,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerData_1col = picker_1col_vals;
         
         // Connect data
-        picker_1col.delegate   = self;
-        picker_1col.dataSource = self;
+        picker_1col.delegate   = pickerHandler;
+        picker_1col.dataSource = pickerHandler;
         
         //Scroll to middle (hide edges)
         if(wraps) {
@@ -212,7 +219,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         //Add to view
         view.addSubview(picker_1col);
         
-        print("ViewController.addPicker_1col():    picker added");
+        if(verbose) { print("ViewController.addPicker_1col():    picker added"); }
         
         return;
     }
@@ -236,13 +243,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         pickerData_3col = gen3ColData(true);
         
         // Connect data
-        picker_3col.delegate   = self;
-        picker_3col.dataSource = self;
+        picker_3col.delegate   = pickerHandler;
+        picker_3col.dataSource = pickerHandler;
         
         //Add to view
         view.addSubview(picker_3col);
         
-        print("ViewController.addPicker_3col():    picker added");
+        if(verbose) { print("ViewController.addPicker_3col():    picker added"); }
         
         return;
     }
@@ -263,7 +270,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         view.addSubview(picker_cust);
         
-        print("ViewController.addPicker_cust()     picker added");
+        if(verbose) { print("ViewController.addPicker_cust()     picker added"); }
         
         return;
     }
@@ -300,7 +307,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         //Print the date
         let dateFormatter = getStandardFormatter();
-        print("ViewController.addPicker_date()     date: \(dateFormatter.string(from: picker_date.date))");
+        
+        if(verbose) { print("ViewController.addPicker_date()     date: \(dateFormatter.string(from: picker_date.date))"); }
         
         return;
     }
@@ -327,7 +335,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
          
         //Print the date
         let dateFormatter = getStandardFormatter();
-        print("ViewController.addPicker_aNote()    date: \(dateFormatter.string(from: picker_anote.date))");
+        
+        if(verbose) { print("ViewController.addPicker_aNote()    date: \(dateFormatter.string(from: picker_anote.date))"); }
  
         return;
     }
@@ -359,11 +368,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             //Manual Gen
             data = [["1", "2", "3", "4", "5"],                              /* 5 columns(X), 4 rows(Y),                             */
-                ["a", "b", "c", "d", "e"],                                  /* visual disp is transposed from access                */
-                ["!", "#", "$", "%", "?"],
-                ["v", "w", "x", "y", "z"]];
+                    ["a", "b", "c", "d", "e"],                              /* visual disp is transposed from access                */
+                    ["!", "#", "$", "%", "?"],
+                    ["v", "w", "x", "y", "z"]];
         }
-        
+
         return data;
     }
 
@@ -385,17 +394,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         //Print A (picker_1)
         x = picker_1col.selectedRow(inComponent: 0)%picker_1col_vals.count;
-        print("ViewController.getPressed():        (A) Picker 1 - '\(picker_1col_vals[x])'");
+        if(verbose) { print("ViewController.getPressed():        (A) Picker 1 - '\(picker_1col_vals[x])'"); }
         
         
         //Print B (picker_3)
-        s = "[" + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: 0);
+        s = "[" + Utils.selectedRowValue(handler: pickerHandler, picker: picker_3col, ic: 0);
         for ic in 1...3 {
-            s = s + ", " + Utils.selectedRowValue(handler: self, picker: picker_3col, ic: ic);
+            s = s + ", " + Utils.selectedRowValue(handler: pickerHandler, picker: picker_3col, ic: ic);
         }
         s = s + "]";
         
-        print("ViewController.getPressed():        (B) Picker 3 - '\(s)'");
+        if(verbose) { print("ViewController.getPressed():        (B) Picker 3 - '\(s)'"); }
         
         
         //Print C (picker_cust/date/anote)
@@ -421,9 +430,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             name = "ANote";
         }
         
-        print("ViewController.getPressed():        (C) \(name) Picker - '\(s)'");
+        if(verbose) { print("ViewController.getPressed():        (C) \(name) Picker - '\(s)'"); }
         
-        print("ViewController.getPressed():        '\(sender.titleLabel!.text!)' response complete");
+        if(verbose) { print("ViewController.getPressed():        '\(sender.titleLabel!.text!)' response complete"); }
         
         return;
     }
@@ -457,114 +466,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             picker_anote.setDate(Date(), animated: true);
         }
         
-        
-        print("ViewController.resetPressed():      '\(sender.titleLabel!.text!)' response complete");
+        if(verbose) { print("ViewController.resetPressed():      '\(sender.titleLabel!.text!)' response complete"); }
         
         return;
     }
-
     
-    /********************************************************************************************************************************/
-    /** @fcn        numberOfComponents(in pickerView: UIPickerView) -> Int
-     *  @brief      The number of columns of data
-     *  @details    called in picker initialization
-     */
-    /********************************************************************************************************************************/
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        
-        let hash = pickerView.hashValue;
-        let val  : Int;
-        
-        switch(hash) {
-        case picker_1col_hash:
-            val = 1;
-            break;
-        case picker_3col_hash:
-            val = pickerData_3col[0].count;
-            break;
-        default:
-            fatalError();
-        }
-
-        return val;
-    }
-  
-    
-    /********************************************************************************************************************************/
-    /** @fcn        pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
-     *  @brief      The number of rows of data
-     *  @details    called on picker generation
-     */
-    /********************************************************************************************************************************/
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        
-        let hash = pickerView.hashValue;
-        let val  : Int;
-        
-        switch(hash) {
-        case picker_1col_hash:
-            val = (picker_1col_wraps) ? 10_000 : pickerData_1col.count;                 /* apply large val if wraps                 */
-            break;
-        case picker_3col_hash:
-            val = pickerData_3col.count;
-            break;
-        default:
-            fatalError();
-        }
-
-        return val;
-    }
-    
-    
-    /********************************************************************************************************************************/
-    /** @fcn        pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
-     *  @brief      The data to return for the row and component (column) that's being passed in
-     *  @details    called on picker scroll
-     *  @hazard     a bug calls this multiple times per single scroll for large row counts (ex. 10_000)
-     */
-    /********************************************************************************************************************************/
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        let hash = pickerView.hashValue;
-        let val  : String?;
-        
-        switch(hash) {
-        case picker_1col_hash:
-
-            if(picker_1col_wraps) {
-                val = pickerData_1col[row%pickerData_1col.count];
-            } else {
-                val = pickerData_1col[row];
-            }
-            break;
-        case picker_3col_hash:
-            val = pickerData_3col[row][component];
-            break;
-        default:
-            fatalError();
-        }
-        
-        return val;
-    }
-    
-
-    /********************************************************************************************************************************/
-    /** @fcn        pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat
-     *  @brief      return the columns width
-     *  @details    x
-     */
-    /********************************************************************************************************************************/
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        switch(pickerView.hashValue) {
-            case picker_1col_hash:
-                return 150;
-            case picker_3col_hash:
-                return 50;
-            default:
-                fatalError("unexpected hash value, aborting");
-        }
-    }
-
     
     /********************************************************************************************************************************/
     /** @fcn        override func didReceiveMemoryWarning()
@@ -574,7 +480,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     /********************************************************************************************************************************/
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning();
-
         return;
     }
     
